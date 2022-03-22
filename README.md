@@ -22,13 +22,15 @@ You can:
 	    DELETE /clients/15 => deletes client with the id of 15
 	      return 404 if no such client exist
 	      return 205 if success
-	      
-We are still working on adding the following functionality:
-
 	* Posting a new Account for a specific Client, such as Client 5
 	    POST /clients/5/accounts =>creates a new account for client with the id of 5
 	      return a 201 status code
 	* Getting all the Accounts for a specific Client, such as Client 7
 	    GET /clients/7/accounts => get all accounts for client 7
-	      return 404 if no client exists
+	      return 404 if no client exists 
+	     
+We are still working on adding the following functionality:
+
+
+
 		

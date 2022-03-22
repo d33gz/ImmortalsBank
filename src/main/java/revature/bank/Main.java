@@ -1,5 +1,6 @@
 package revature.bank;
 import io.javalin.Javalin;
+import revature.d33gz.controllers.AccountController;
 import revature.d33gz.controllers.ClientController;
 
 public class Main {
@@ -20,7 +21,8 @@ public class Main {
 		 * PUT updates client id 12 (404 if no client)
 		 * POST a new client ()
 		 * DELETE deletes client id 15 (404 if no client, 205 if success)
-		 * app.delete("/clients/15", ctx -> {});
+		 * POST create new account for client id 5 (201 if success)
+		 * GET all accounts for client 7
 		 */
 		//app.get("/clients/{num}", Handlers.getOneClient); OUTDATED
 		app.get("/allClients/{id}", ClientController.getOneClient);
@@ -29,12 +31,12 @@ public class Main {
 		//app.post("/clients/new/{name}", Handlers.postClient); OUTDATED
 		app.post("/allClients", ClientController.addClient);
 		app.delete("/allClients/{id}", ClientController.deleteClient);
+		app.post("/accounts/{id}", AccountController.addAccount);
+		 app.get("/clients/{id}/accounts", AccountController.getAllAccounts);
 		/*All the Stories that are Not Done
 
-		 *  POST create new account for client id 5 (201 if success)
-		 *  app.post("/clients/5/accounts", ctx -> {});
-		 *  GET all accounts for client 7
-		 *  app.get("/clients/7/accounts", ctx -> {});
+
+		
 		 *  
 		 *  OPTIONAL
 		 *  GET all accounts balance between 400 and 2000
