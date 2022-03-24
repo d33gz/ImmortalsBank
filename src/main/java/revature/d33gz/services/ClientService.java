@@ -1,5 +1,8 @@
 package revature.d33gz.services;
 
+
+import java.util.ArrayList;
+
 import revature.d33gz.entity.Client;
 
 public interface ClientService {
@@ -7,7 +10,9 @@ public interface ClientService {
 	Client addClient(Client client);
 	
 	//R
-
+	ArrayList<Client> getAllClients();
+	Client getOneClient(int id);
+	
 	//U
 	
 	//D

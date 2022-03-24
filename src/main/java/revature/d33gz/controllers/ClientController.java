@@ -28,15 +28,8 @@ public class ClientController {
 	
 	public Handler addClient = (ctx) -> {
 		Client client = ctx.bodyAsClass(Client.class);
-		System.out.println("Here's your Client bro" + client);
+		System.out.println("A warm welcome to our newest Client, " + client);
 		client = this.cserv.addClient(client);
-//		Client client = ctx.bodyAsClass(Client.class);
-//		String newClient = "INSERT INTO client VALUES (?,?)";
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(newClient);
-//		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW WE HAVE TO SUPPLY IT
-//		ps.setInt(1, client.getId());
-//		ps.setString(2, client.getName());
 //		try {
 //			ps.execute();
 //		} catch (SQLException e) {
@@ -44,51 +37,42 @@ public class ClientController {
 //			ctx.status(400);
 //		}
 //		ctx.status(201);
-//		ps.close();
 
 	};
-	public static Handler getAllClients = (ctx) -> {
-		String selectAllClients = "SELECT * FROM client";
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(selectAllClients);
-		rs = ps.executeQuery();
-		ArrayList<Client> cList = new ArrayList<Client>();
-		Client c;
-		while (rs.next()) {
-			int id = rs.getInt("client_id");
-			String name = rs.getString("client_name");
-			c = new Client(id, name);
-			cList.add(c);
-		}
-		if (cList.size() == 0) {
-			ctx.result("There are no Client's in the Bank of the Immortals right now.");
-			ctx.status(400);
-		} else {
-			ctx.json(cList);
-			ctx.status(200);
-		}
-		rs.close();ps.close();
+	public Handler getAllClients = (ctx) -> {
+		System.out.println("So you want to get all the Clients?");
+		ArrayList<Client> cList = this.cserv.getAllClients();
+		ctx.json(cList);
+//		if (cList.size() == 0) {
+//			ctx.result("There are no Client's in the Bank of the Immortals right now.");
+//			ctx.status(400);
+//		} else {
+//			ctx.json(cList);
+//			ctx.status(200);
+//		}
 	};
-	public static Handler getOneClient = (ctx) -> {
-		String selectOneClient = "SELECT * FROM client WHERE client_id=?";
+	public Handler getOneClient = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(selectOneClient);
-		ps.setInt(1, id);
-		rs = ps.executeQuery();
-		Client c;
-		if (rs.getFetchSize() == 0) {
-			ctx.result("Doesn't look like we have a Client with that ID here.");
-			ctx.status(404);
-		}
-		while (rs.next()) {
-			int cId = rs.getInt("client_id");
-			String cName = rs.getString("client_name");
-			c = new Client(cId, cName);
-			ctx.json(c);
-			ctx.status(200);
-		}
-		rs.close();ps.close();
+		System.out.println("Client ID#" + id + " coming up!");
+		Client client = this.cserv.getOneClient(id);
+		ctx.json(client);
+//		String selectOneClient = "SELECT * FROM client WHERE client_id=?";
+//		ps = conn.prepareStatement(selectOneClient);
+//		ps.setInt(1, id);
+//		rs = ps.executeQuery();
+//		Client c;
+//		if (rs.getFetchSize() == 0) {
+//			ctx.result("Doesn't look like we have a Client with that ID here.");
+//			ctx.status(404);
+//		}
+//		while (rs.next()) {
+//			int cId = rs.getInt("client_id");
+//			String cName = rs.getString("client_name");
+//			c = new Client(cId, cName);
+//			ctx.json(c);
+//			ctx.status(200);
+//		}
+//		rs.close();ps.close();
 	};
 	public static Handler updateClient = (ctx) -> {
 		String updateClient = "UPDATE client SET client_name=? WHERE client_id=?";

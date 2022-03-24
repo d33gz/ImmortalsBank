@@ -18,8 +18,8 @@ public class Main {
 		ClientController clientController = new ClientController(cserv);
 		
 		app.get("/", ctx -> {ctx.result("Welcome to Immortals Bank!");});
-		app.get("/allClients", ClientController.getAllClients);
-		app.get("/clients/{id}", ClientController.getOneClient);
+		app.get("/clients", clientController.getAllClients);
+		app.get("/clients/{id}", clientController.getOneClient);
 		app.put("/clients/{id}", ClientController.updateClient);
 		app.post("/clients", clientController.addClient);
 		app.delete("/clients/{id}", ClientController.deleteClient);
