@@ -31,15 +31,15 @@ public class Main {
 		
 		//Set up all of our Endpoints
 		app.get("/", ctx -> {ctx.result("Welcome to Immortals Bank!");});
+		app.post("/clients", clientController.addClient);
 		app.get("/clients", clientController.getAllClients);
 		app.get("/clients/{id}", clientController.getOneClient);
 		app.put("/clients/{id}", clientController.updateClient);
-		app.post("/clients", clientController.addClient);
 		app.delete("/clients/{id}", clientController.deleteClient);
+		app.get("/clients/{id}/accounts", accountController.getAllAccounts);
 		app.post("/accounts/{id}", accountController.addAccount);
-		app.get("/clients/{id}/accounts", AccountController.getAllAccounts);
+		app.get("/accounts/{id}", accountController.getOneAccount);
 		app.get("/accounts", AccountController.getAccountsWithBalance);
-		app.get("/accounts/{id}", AccountController.getOneAccount);
 		app.put("/accounts/{id}", AccountController.updateAccount);
 		app.delete("/accounts/{id}", AccountController.deleteAccount);
 		app.patch("/accounts/{id}/deposit", AccountController.deposit);

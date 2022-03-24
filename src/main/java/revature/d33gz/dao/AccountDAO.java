@@ -9,6 +9,6 @@ public interface AccountDAO {
 	Account createAccount(Account account, int id);
 	
 	//R
-	ArrayList<Account> getAllAccounts();
+	ArrayList<Account> getAllAccounts(int id);
 	Account getOneAccount(int id);
 }

@@ -32,15 +32,49 @@ public class PostgresAccountDAO implements AccountDAO {
 		}
 		return account;
 	}
-	
-	public ArrayList<Account> getAllAccounts(){
+	public ArrayList<Account> getAllAccounts(int id){
 		ArrayList<Account> aList = new ArrayList<Account>();
+		try(Connection conn = ConnectionUtils.createConnection();) {
+			String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";
+			ps = conn.prepareStatement(selectAllAccounts);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			Account a;
+			while (rs.next()) {
+				int aId = rs.getInt("account_id");
+				int oId = rs.getInt("account_owner");
+				String aName = rs.getString("account_name");
+				int aBal = rs.getInt("account_balance");
+				a = new Account(aId, oId, aName, aBal);
+				aList.add(a);
+			}
+			rs.close();ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		return aList;
-	};
-	
+	}
 	public Account getOneAccount(int id) {
 		Account a = new Account();
+		try(Connection conn = ConnectionUtils.createConnection();) {
+			String selectOneAccount = "SELECT * FROM account WHERE account_id=?";
+			ps = conn.prepareStatement(selectOneAccount);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int aId = rs.getInt("account_id");
+				int oId = rs.getInt("account_owner");
+				String aName = rs.getString("account_name");
+				int aBal = rs.getInt("account_balance");
+				a = new Account(aId, oId, aName, aBal);
+			}
+			rs.close();ps.close();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return a;
-	};
-	
+	}
 }

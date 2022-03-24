@@ -37,25 +37,28 @@ public class AccountController {
 //		ctx.status(201);
 //		ps.close();
 	};
-	public static Handler getAllAccounts = (ctx) -> {
-		String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";
+	public Handler getAllAccounts = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(selectAllAccounts);
-		ps.setInt(1, id);
-		rs = ps.executeQuery();
-		ArrayList<Account> aList = new ArrayList<Account>();
-		Account a;
-		while (rs.next()) {
-			int aId = rs.getInt("account_id");
-			int oId = rs.getInt("account_owner");
-			String aName = rs.getString("account_name");
-			int aBal = rs.getInt("account_balance");
-			a = new Account(aId, oId, aName, aBal);
-			aList.add(a);
-		}
+		System.out.println("Client ID# " + id + " wants to check out all of their Accounts.");
+		ArrayList<Account> aList = this.aserv.getAllAccounts(id);
 		ctx.json(aList);
-		rs.close();ps.close();
+//		String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps = conn.prepareStatement(selectAllAccounts);
+//		ps.setInt(1, id);
+//		rs = ps.executeQuery();
+//		ArrayList<Account> aList = new ArrayList<Account>();
+//		Account a;
+//		while (rs.next()) {
+//			int aId = rs.getInt("account_id");
+//			int oId = rs.getInt("account_owner");
+//			String aName = rs.getString("account_name");
+//			int aBal = rs.getInt("account_balance");
+//			a = new Account(aId, oId, aName, aBal);
+//			aList.add(a);
+//		}
+//		ctx.json(aList);
+//		rs.close();ps.close();
 	};
 	public static Handler getAccountsWithBalance = (ctx) -> {
 		String selectAllAccountsWithBalanceOf = "SELECT * FROM account WHERE account_balance<? AND account_balance>?";
@@ -79,23 +82,26 @@ public class AccountController {
 		ctx.json(aList);
 		rs.close();ps.close();
 	};
-	public static Handler getOneAccount = (ctx) -> {
-		String selectOneAccount = "SELECT * FROM account WHERE account_id=?";
+	public Handler getOneAccount = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(selectOneAccount);
-		ps.setInt(1, id);
-		rs = ps.executeQuery();
-		Account a;
-		while (rs.next()) {
-			int aId = rs.getInt("account_id");
-			int oId = rs.getInt("account_owner");
-			String aName = rs.getString("account_name");
-			int aBal = rs.getInt("account_balance");
-			a = new Account(aId, oId, aName, aBal);
-			ctx.json(a);
-		}
-		rs.close();ps.close();
+		System.out.println("We are looking for an Account with ID# " + id);
+		Account account = this.aserv.getOneAccount(id);
+		ctx.json(account);
+//		String selectOneAccount = "SELECT * FROM account WHERE account_id=?";
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps = conn.prepareStatement(selectOneAccount);
+//		ps.setInt(1, id);
+//		rs = ps.executeQuery();
+//		Account a;
+//		while (rs.next()) {
+//			int aId = rs.getInt("account_id");
+//			int oId = rs.getInt("account_owner");
+//			String aName = rs.getString("account_name");
+//			int aBal = rs.getInt("account_balance");
+//			a = new Account(aId, oId, aName, aBal);
+//			ctx.json(a);
+//		}
+//		rs.close();ps.close();
 	};
 	public static Handler updateAccount = (ctx) -> {
 		String updateAccount = "UPDATE account SET account_name=? WHERE account_id=?";

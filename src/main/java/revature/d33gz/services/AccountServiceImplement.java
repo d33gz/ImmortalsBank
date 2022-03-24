@@ -17,8 +17,8 @@ public class AccountServiceImplement implements AccountService {
 		return account;
 	}
 	
-	public ArrayList<Account> getAllAccounts() {
-		ArrayList<Account> accounts = this.adao.getAllAccounts();
+	public ArrayList<Account> getAllAccounts(int id) {
+		ArrayList<Account> accounts = this.adao.getAllAccounts(id);
 		return accounts;
 	}
 	
