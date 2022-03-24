@@ -4,6 +4,6 @@ public class ClientServiceImplement implements ClientService {
 	private ClientDAO clientDAO;
 	
 	public addClient(Client client) {
-		
+		this.clientDAO.createClient(client);
 	}
 }
