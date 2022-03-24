@@ -27,4 +27,14 @@ public class ClientServiceImplement implements ClientService {
 		Client client = this.cdao.getOneClient(id);
 		return client;
 	}
+	
+	public Client updateClient(Client client, int id) {
+		this.cdao.updateClient(client, id);
+		return client;
+	}
+	
+	public void deleteClient(int id) {
+		this.cdao.deleteClient(id);
+	}
+	
 }

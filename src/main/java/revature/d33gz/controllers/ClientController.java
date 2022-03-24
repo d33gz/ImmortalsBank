@@ -53,57 +53,46 @@ public class ClientController {
 	};
 	public Handler getOneClient = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		System.out.println("Client ID#" + id + " coming up!");
+		System.out.println("Client ID# " + id + " coming up!");
 		Client client = this.cserv.getOneClient(id);
 		ctx.json(client);
-//		String selectOneClient = "SELECT * FROM client WHERE client_id=?";
-//		ps = conn.prepareStatement(selectOneClient);
-//		ps.setInt(1, id);
-//		rs = ps.executeQuery();
-//		Client c;
 //		if (rs.getFetchSize() == 0) {
 //			ctx.result("Doesn't look like we have a Client with that ID here.");
 //			ctx.status(404);
 //		}
 //		while (rs.next()) {
-//			int cId = rs.getInt("client_id");
-//			String cName = rs.getString("client_name");
-//			c = new Client(cId, cName);
 //			ctx.json(c);
 //			ctx.status(200);
 //		}
-//		rs.close();ps.close();
 	};
-	public static Handler updateClient = (ctx) -> {
-		String updateClient = "UPDATE client SET client_name=? WHERE client_id=?";
+	public Handler updateClient = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Client clientOne = ctx.bodyAsClass(Client.class);
-		Connection conn = ConnectionUtils.createConnection();
-//		// v Convert this into a Callable Statement v
-//		stmt = conn.createStatement();
-//		rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
-//		if (rs.getFetchSize() == 0) {
-//			ctx.result("Doesn't look like we have a Client with that ID here.");
-//			ctx.status(404);
-//		} else {
-//		// ^ ^ ^
-			ps = conn.prepareStatement(updateClient);
-			ps.setString(1, clientOne.getName());
-			ps.setInt(2, id);
-			ps.execute();
-			ctx.result("The Client has been updated.");
-			ctx.status(200);
-			ps.close();
-		//}
-	};
-	public static Handler deleteClient = (ctx) -> {
-		String deleteClient = "DELETE FROM client WHERE client_id=?";
-		int id = Integer.parseInt(ctx.pathParam("id"));
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(deleteClient);
-		ps.setInt(1, id);
-		ps.execute();
+		System.out.println("Client ID# " + id + " wants to change their name.");
+		Client clientToUpdate = ctx.bodyAsClass(Client.class);
+		Client updatedClient = this.cserv.updateClient(clientToUpdate, id);
+//		String updateClientString = "UPDATE client SET client_name=? WHERE client_id=?";
+////		// v Convert this into a Callable Statement v
+////		stmt = conn.createStatement();
+////		rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
+////		if (rs.getFetchSize() == 0) {
+////			ctx.result("Doesn't look like we have a Client with that ID here.");
+////			ctx.status(404);
+////		} else {
+////		// ^ ^ ^
+//			ps = conn.prepareStatement(updateClient);
+//			ps.setString(1, clientOne.getName());
+//			ps.setInt(2, id);
+//			ps.execute();
+//			ctx.result("The Client has been updated.");
+//			ctx.status(200);
+//			ps.close();
+//		//}
+		ctx.result("The Client has been updated.\nHere they are: ID#: " + id + " Name: " + updatedClient.getName());
 		ctx.status(200);
-		ps.close();
+	};
+	public Handler deleteClient = (ctx) -> {
+		int id = Integer.parseInt(ctx.pathParam("id"));
+		System.out.println("It seems that Client #ID " + id + " wants to leave our bank.");
+		this.cserv.deleteClient(id);
 	};
 }

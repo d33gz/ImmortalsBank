@@ -90,4 +90,42 @@ public class PostgresClientDAO implements ClientDAO {
 		}
 		return c;
 	}
+	
+	public Client updateClient(Client client, int id) {
+		try (Connection conn = ConnectionUtils.createConnection();) {
+			String updateClientString = "UPDATE client SET client_name=? WHERE client_id=?";
+//			// v Convert this into a Callable Statement v
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
+//			if (rs.getFetchSize() == 0) {
+//				ctx.result("Doesn't look like we have a Client with that ID here.");
+//				ctx.status(404);
+//			} else {
+//			// ^ ^ ^
+				ps = conn.prepareStatement(updateClientString);
+				ps.setString(1, client.getName());
+				ps.setInt(2, id);
+				ps.execute();
+				ps.close();
+			//}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return client;
+	}
+	
+	public void deleteClient(int id) {
+		try (Connection conn = ConnectionUtils.createConnection();) {
+			String deleteClient = "DELETE FROM client WHERE client_id=?";
+			ps = conn.prepareStatement(deleteClient);
+			ps.setInt(1, id);
+			ps.execute();
+//			ctx.status(200);
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

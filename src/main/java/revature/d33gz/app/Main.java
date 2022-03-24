@@ -20,9 +20,9 @@ public class Main {
 		app.get("/", ctx -> {ctx.result("Welcome to Immortals Bank!");});
 		app.get("/clients", clientController.getAllClients);
 		app.get("/clients/{id}", clientController.getOneClient);
-		app.put("/clients/{id}", ClientController.updateClient);
+		app.put("/clients/{id}", clientController.updateClient);
 		app.post("/clients", clientController.addClient);
-		app.delete("/clients/{id}", ClientController.deleteClient);
+		app.delete("/clients/{id}", clientController.deleteClient);
 		app.post("/accounts/{id}", AccountController.addAccount);
 		app.get("/clients/{id}/accounts", AccountController.getAllAccounts);
 		app.get("/accounts", AccountController.getAccountsWithBalance);

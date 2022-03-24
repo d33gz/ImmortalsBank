@@ -13,4 +13,9 @@ public interface ClientDAO {
 	ArrayList<Client> getAllClients();
 	Client getOneClient(int id);
 	
+	//U
+	Client updateClient(Client client, int id);
+	
+	//D
+	void deleteClient(int id);
 }
