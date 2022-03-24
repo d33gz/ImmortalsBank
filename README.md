@@ -27,9 +27,25 @@ You can:
 	      return a 201 status code
 	* Getting all the Accounts for a specific Client, such as Client 7
 	    GET /clients/7/accounts => get all accounts for client 7
-	      return 404 if no client exists 
-	     
-We are still working on adding the following functionality:
+	      return 404 if no client exists
+	* Get a specific Account, such as one with an ID of 4
+	    GET /accounts/4 => get account with id 4 
+	      return 404 if no account or client exists
+	* Update a specific Account, such as one with an ID of 3
+	    PUT /accounts/3 => update account with the id 3
+	      return 404 if no account or client exists
+	* Delete a specific Account, such as one with an ID of 6
+	    DELETE /accounts/6 => delete account 6 
+	      return 404 if no account or client exists
+	* Get all Accounts with a certain balance criteria
+	    GET /accounts?amountLessThan=2000&amountGreaterThan400 => get all accounts for between 400 and 2000
+	* Deposit a certain amount of money into an Account
+	    PATCH /accounts/12/deposit => deposit given amount (Body {"amount":500} )
+	      return 404 if no account exists
+	* Withdraw a certain amount of money from an Account
+	    PATCH /accounts/12/withdraw => withdraw given amount (Body {"amount":500} )
+	      return 404 if no account exists
+	      return 422 if insufficient funds
 
 
 

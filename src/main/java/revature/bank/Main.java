@@ -6,7 +6,6 @@ import revature.d33gz.controllers.ClientController;
 public class Main {
 	public static void main(String[] args) {
 		String url = System.getenv("MY_DB_CONNECTION");
-		System.out.println(url);
 		
 		Javalin app = Javalin.create().start();
 		app.get("/", ctx -> {ctx.result("Welcome to Immortals Bank!");});
@@ -32,28 +31,22 @@ public class Main {
 		app.post("/allClients", ClientController.addClient);
 		app.delete("/allClients/{id}", ClientController.deleteClient);
 		app.post("/accounts/{id}", AccountController.addAccount);
-		 app.get("/clients/{id}/accounts", AccountController.getAllAccounts);
-		/*All the Stories that are Not Done
-
-
+		app.get("/clients/{id}/accounts", AccountController.getAllAccounts);
 		
-		 *  
-		 *  OPTIONAL
+		//OPTIONAL
+		/* Half Done
 		 *  GET all accounts balance between 400 and 2000
-		 *  app.get("/accounts?amountLessThan=2000&amountGreaterThan400", ctx -> {});
 		 *  GET account id 4
-		 *  app.get("/accounts/4", ctx -> {});
 		 *  PUT update account with id 3 (404 if no client)
-		 *  app.put("/accounts/3", ctx -> {});
 		 *  DELETE account 6 (404 if no client)
-		 *  app.delete("/accounts/6", ctx -> {});
 		 *  PATCH deposit given amount (Body {"amount":500)) (404 if no client)
-		 *  app.patch("/accounts/12/deposit", ctx -> {});
 		 *  PATCH withdraw given amount (Body {"amount":500)) (404 if no client, 422 if insufficient funds)
-		 *  app.patch("/accounts/12/withdraw", ctx -> {});
 		 */
-
-		//Endpoints Testing Ground
-
+		app.get("/accounts", AccountController.getAccountsWithBalance);
+		app.get("/accounts/{id}", AccountController.getOneAccount);
+		app.put("/accounts/{id}", AccountController.updateAccount);
+		app.delete("/accounts/{id}", AccountController.deleteAccount);
+		app.patch("/accounts/{id}/deposit", AccountController.deposit);
+		app.patch("/accounts/{id}/withdraw", AccountController.withdraw);
 	}
 }

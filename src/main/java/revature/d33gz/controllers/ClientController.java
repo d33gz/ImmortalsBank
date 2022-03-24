@@ -3,6 +3,9 @@ package revature.d33gz.controllers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import revature.bank.entity.Client;
 import java.util.ArrayList;
 import io.javalin.http.Handler;
@@ -11,7 +14,9 @@ import revature.connection.ConnectionUtils;
 public class ClientController {
 	static PreparedStatement ps;
 	static ResultSet rs;
-	
+	//TEMP
+	static Statement stmt;
+	//TEMP
 	//Figure out later. Should be able to avoid Static with this
 	/*
 	* private ClientService cserv;
@@ -27,7 +32,12 @@ public class ClientController {
 		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW WE HAVE TO SUPPLY IT
 		ps.setInt(1, client.getId());
 		ps.setString(2, client.getName());
-		ps.execute();
+		try {
+			ps.execute();
+		} catch (SQLException e) {
+			ctx.result("That ID is a Duplicate of another in the table");
+			ctx.status(400);
+		}
 		ctx.status(201);
 		ps.close();
 	};
@@ -44,7 +54,13 @@ public class ClientController {
 			c = new Client(id, name);
 			cList.add(c);
 		}
-		ctx.json(cList);
+		if (cList.size() == 0) {
+			ctx.result("There are no Client's in the Bank of the Immortals right now.");
+			ctx.status(400);
+		} else {
+			ctx.json(cList);
+			ctx.status(200);
+		}
 		rs.close();ps.close();
 	};
 	public static Handler getOneClient = (ctx) -> {
@@ -55,11 +71,16 @@ public class ClientController {
 		ps.setInt(1, id);
 		rs = ps.executeQuery();
 		Client c;
+		if (rs.getFetchSize() == 0) {
+			ctx.result("Doesn't look like we have a Client with that ID here.");
+			ctx.status(404);
+		}
 		while (rs.next()) {
 			int cId = rs.getInt("client_id");
 			String cName = rs.getString("client_name");
 			c = new Client(cId, cName);
 			ctx.json(c);
+			ctx.status(200);
 		}
 		rs.close();ps.close();
 	};
@@ -68,12 +89,22 @@ public class ClientController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		Client clientOne = ctx.bodyAsClass(Client.class);
 		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(updateClient);
-		ps.setString(1, clientOne.getName());
-		ps.setInt(2, id);
-		ps.execute();
-		ctx.status(200);
-		ps.close();
+		// v Convert this into a Callable Statement v
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
+		if (rs.getFetchSize() == 0) {
+			ctx.result("Doesn't look like we have a Client with that ID here.");
+			ctx.status(404);
+		} else {
+		// ^ ^ ^
+			ps = conn.prepareStatement(updateClient);
+			ps.setString(1, clientOne.getName());
+			ps.setInt(2, id);
+			ps.execute();
+			ctx.result("The Client has been updated.");
+			ctx.status(200);
+			ps.close();
+		}
 	};
 	public static Handler deleteClient = (ctx) -> {
 		String deleteClient = "DELETE FROM client WHERE client_id=?";
