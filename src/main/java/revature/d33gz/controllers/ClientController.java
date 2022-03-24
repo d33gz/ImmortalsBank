@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import revature.bank.entity.Client;
+import revature.d33gz.connection.ConnectionUtils;
+import revature.d33gz.entity.Client;
+
 import java.util.ArrayList;
 import io.javalin.http.Handler;
-import revature.connection.ConnectionUtils;
 
 public class ClientController {
 	static PreparedStatement ps;
@@ -89,14 +90,14 @@ public class ClientController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		Client clientOne = ctx.bodyAsClass(Client.class);
 		Connection conn = ConnectionUtils.createConnection();
-		// v Convert this into a Callable Statement v
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
-		if (rs.getFetchSize() == 0) {
-			ctx.result("Doesn't look like we have a Client with that ID here.");
-			ctx.status(404);
-		} else {
-		// ^ ^ ^
+//		// v Convert this into a Callable Statement v
+//		stmt = conn.createStatement();
+//		rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
+//		if (rs.getFetchSize() == 0) {
+//			ctx.result("Doesn't look like we have a Client with that ID here.");
+//			ctx.status(404);
+//		} else {
+//		// ^ ^ ^
 			ps = conn.prepareStatement(updateClient);
 			ps.setString(1, clientOne.getName());
 			ps.setInt(2, id);
@@ -104,7 +105,7 @@ public class ClientController {
 			ctx.result("The Client has been updated.");
 			ctx.status(200);
 			ps.close();
-		}
+		//}
 	};
 	public static Handler deleteClient = (ctx) -> {
 		String deleteClient = "DELETE FROM client WHERE client_id=?";

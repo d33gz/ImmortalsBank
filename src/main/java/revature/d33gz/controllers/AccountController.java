@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import revature.bank.entity.Account;
+
+import revature.d33gz.connection.ConnectionUtils;
+import revature.d33gz.entity.Account;
 import io.javalin.http.Handler;
-import revature.connection.ConnectionUtils;
 
 public class AccountController {
 	static PreparedStatement ps;

@@ -1,4 +1,4 @@
-package revature.bank.entity;
+package revature.d33gz.entity;
 
 public class Account {
 	private int id;

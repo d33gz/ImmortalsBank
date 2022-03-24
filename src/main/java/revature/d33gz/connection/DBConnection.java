@@ -1,4 +1,4 @@
-package revature.connection;
+package revature.d33gz.connection;
 import revature.queries.GetAll;
 import revature.queries.Get;
 import revature.queries.Put;
