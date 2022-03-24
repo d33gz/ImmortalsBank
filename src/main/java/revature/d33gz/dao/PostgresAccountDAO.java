@@ -77,4 +77,28 @@ public class PostgresAccountDAO implements AccountDAO {
 		}
 		return a;
 	}
+	public ArrayList<Account> getAccountsWithBalance(int less, int more) {
+		ArrayList<Account> bList = new ArrayList<Account>();
+		try(Connection conn = ConnectionUtils.createConnection();) {
+			String selectAllAccountsWithBalanceOf = "SELECT * FROM account WHERE account_balance<? AND account_balance>?";
+			ps = conn.prepareStatement(selectAllAccountsWithBalanceOf);
+			ps.setInt(1, less);
+			ps.setInt(2, more);
+			rs = ps.executeQuery();
+			Account a;
+			while (rs.next()) {
+				int aId = rs.getInt("account_id");
+				int oId = rs.getInt("account_owner");
+				String aName = rs.getString("account_name");
+				int aBal = rs.getInt("account_balance");
+				a = new Account(aId, oId, aName, aBal);
+				bList.add(a);
+			}
+			rs.close();ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bList;
+	}
 }

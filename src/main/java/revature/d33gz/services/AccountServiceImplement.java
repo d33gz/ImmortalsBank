@@ -11,19 +11,20 @@ public class AccountServiceImplement implements AccountService {
 	public AccountServiceImplement(AccountDAO accountDAO) {
 		this.adao = accountDAO;
 	}
-	
 	public Account addAccount(Account account, int id) {
 		this.adao.createAccount(account, id);
 		return account;
 	}
-	
 	public ArrayList<Account> getAllAccounts(int id) {
 		ArrayList<Account> accounts = this.adao.getAllAccounts(id);
 		return accounts;
 	}
-	
 	public Account getOneAccount(int id) {
 		Account account = this.adao.getOneAccount(id);
 		return account;
+	}
+	public ArrayList<Account> getAccountsWithBalance(int less, int more) {
+		ArrayList<Account> accounts = this.adao.getAccountsWithBalance(less, more);
+		return accounts;
 	}
 }

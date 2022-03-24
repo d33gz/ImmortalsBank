@@ -60,28 +60,6 @@ public class AccountController {
 //		ctx.json(aList);
 //		rs.close();ps.close();
 	};
-	public static Handler getAccountsWithBalance = (ctx) -> {
-		String selectAllAccountsWithBalanceOf = "SELECT * FROM account WHERE account_balance<? AND account_balance>?";
-		int less = Integer.parseInt(ctx.queryParam("balanceLessThan"));
-		int more = Integer.parseInt(ctx.queryParam("balanceGreaterThan"));
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(selectAllAccountsWithBalanceOf);
-		ps.setInt(1, less);
-		ps.setInt(2, more);
-		rs = ps.executeQuery();
-		ArrayList<Account> aList = new ArrayList<Account>();
-		Account a;
-		while (rs.next()) {
-			int aId = rs.getInt("account_id");
-			int oId = rs.getInt("account_owner");
-			String aName = rs.getString("account_name");
-			int aBal = rs.getInt("account_balance");
-			a = new Account(aId, oId, aName, aBal);
-			aList.add(a);
-		}
-		ctx.json(aList);
-		rs.close();ps.close();
-	};
 	public Handler getOneAccount = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("We are looking for an Account with ID# " + id);
@@ -101,6 +79,32 @@ public class AccountController {
 //			a = new Account(aId, oId, aName, aBal);
 //			ctx.json(a);
 //		}
+//		rs.close();ps.close();
+	};
+	public Handler getAccountsWithBalance = (ctx) -> {
+		int less = Integer.parseInt(ctx.queryParam("balanceLessThan"));
+		int more = Integer.parseInt(ctx.queryParam("balanceGreaterThan"));
+		System.out.println("We're looking for the accounts with a Balance that is less than " + less + " and greater than " + more);
+		ArrayList<Account> bList = this.aserv.getAccountsWithBalance(less, more);
+		ctx.json(bList);
+		
+//		String selectAllAccountsWithBalanceOf = "SELECT * FROM account WHERE account_balance<? AND account_balance>?";
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps = conn.prepareStatement(selectAllAccountsWithBalanceOf);
+//		ps.setInt(1, less);
+//		ps.setInt(2, more);
+//		rs = ps.executeQuery();
+//		ArrayList<Account> aList = new ArrayList<Account>();
+//		Account a;
+//		while (rs.next()) {
+//			int aId = rs.getInt("account_id");
+//			int oId = rs.getInt("account_owner");
+//			String aName = rs.getString("account_name");
+//			int aBal = rs.getInt("account_balance");
+//			a = new Account(aId, oId, aName, aBal);
+//			aList.add(a);
+//		}
+//		ctx.json(aList);
 //		rs.close();ps.close();
 	};
 	public static Handler updateAccount = (ctx) -> {

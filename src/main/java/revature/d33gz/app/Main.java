@@ -39,11 +39,11 @@ public class Main {
 		app.get("/clients/{id}/accounts", accountController.getAllAccounts);
 		app.post("/accounts/{id}", accountController.addAccount);
 		app.get("/accounts/{id}", accountController.getOneAccount);
-		app.get("/accounts", AccountController.getAccountsWithBalance);
+		app.get("/accounts", accountController.getAccountsWithBalance);
 		app.put("/accounts/{id}", AccountController.updateAccount);
-		app.delete("/accounts/{id}", AccountController.deleteAccount);
 		app.patch("/accounts/{id}/deposit", AccountController.deposit);
 		app.patch("/accounts/{id}/withdraw", AccountController.withdraw);
+		app.delete("/accounts/{id}", AccountController.deleteAccount);
 		
 		//Starting our Application
 		app.start();

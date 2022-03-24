@@ -11,5 +11,6 @@ public interface AccountService {
 	//R
 	ArrayList<Account> getAllAccounts(int id);
 	Account getOneAccount(int id);
+	ArrayList<Account> getAccountsWithBalance(int less, int more);
 	
 }
