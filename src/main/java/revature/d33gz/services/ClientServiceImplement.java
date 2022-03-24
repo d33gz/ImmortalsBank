@@ -1,9 +1,17 @@
 package revature.d33gz.services;
 
+import revature.d33gz.dao.ClientDAO;
+import revature.d33gz.entity.Client;
+
 public class ClientServiceImplement implements ClientService {
-	private ClientDAO clientDAO;
+	private ClientDAO cdao;
 	
-	public addClient(Client client) {
-		this.clientDAO.createClient(client);
+	public ClientServiceImplement(ClientDAO clientDAO) {
+		this.cdao = clientDAO;
+	}
+
+	public Client addClient(Client client) {
+		this.cdao.createClient(client);
+		return client;
 	}
 }

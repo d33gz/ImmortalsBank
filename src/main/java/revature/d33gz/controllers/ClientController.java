@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import revature.d33gz.connection.ConnectionUtils;
 import revature.d33gz.entity.Client;
+import revature.d33gz.services.ClientService;
 
 import java.util.ArrayList;
 import io.javalin.http.Handler;
@@ -19,28 +20,32 @@ public class ClientController {
 	static Statement stmt;
 	//TEMP
 	//Figure out later. Should be able to avoid Static with this
-	/*
-	* private ClientService cserv;
-	* public clientController(ClientService clientService) {
-	* 	this.cserv = ClientService;
-	* }
-	*/
-	public static Handler addClient = (ctx) -> {
+	
+	private ClientService cserv;
+	public ClientController(ClientService clientService) {
+		this.cserv = clientService;
+	}
+	
+	public Handler addClient = (ctx) -> {
 		Client client = ctx.bodyAsClass(Client.class);
-		String newClient = "INSERT INTO client VALUES (?,?)";
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(newClient);
-		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW WE HAVE TO SUPPLY IT
-		ps.setInt(1, client.getId());
-		ps.setString(2, client.getName());
-		try {
-			ps.execute();
-		} catch (SQLException e) {
-			ctx.result("That ID is a Duplicate of another in the table");
-			ctx.status(400);
-		}
-		ctx.status(201);
-		ps.close();
+		System.out.println("Here's your Client bro" + client);
+		client = this.cserv.addClient(client);
+//		Client client = ctx.bodyAsClass(Client.class);
+//		String newClient = "INSERT INTO client VALUES (?,?)";
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps = conn.prepareStatement(newClient);
+//		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW WE HAVE TO SUPPLY IT
+//		ps.setInt(1, client.getId());
+//		ps.setString(2, client.getName());
+//		try {
+//			ps.execute();
+//		} catch (SQLException e) {
+//			ctx.result("That ID is a Duplicate of another in the table");
+//			ctx.status(400);
+//		}
+//		ctx.status(201);
+//		ps.close();
+
 	};
 	public static Handler getAllClients = (ctx) -> {
 		String selectAllClients = "SELECT * FROM client";

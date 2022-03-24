@@ -1,5 +1,8 @@
 package revature.d33gz.dao;
 
-public interface ClientDAO {
+import revature.d33gz.entity.Client;
 
+public interface ClientDAO {
+	//C
+	Client createClient(Client client);
 }
