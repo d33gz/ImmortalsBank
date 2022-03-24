@@ -7,26 +7,35 @@ import java.util.ArrayList;
 
 import revature.d33gz.connection.ConnectionUtils;
 import revature.d33gz.entity.Account;
+import revature.d33gz.services.AccountService;
 import io.javalin.http.Handler;
 
 public class AccountController {
 	static PreparedStatement ps;
 	static ResultSet rs;
 	
-	public static Handler addAccount = (ctx) -> {
+	private AccountService aserv;
+	public AccountController(AccountService accountService) {
+		this.aserv = accountService;
+	}
+	
+	public Handler addAccount = (ctx) -> {
 		Account account = ctx.bodyAsClass(Account.class);
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(newAccount);
-		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW HAVE TO SUPPLY IT
-		ps.setInt(1, account.getId());
-		ps.setInt(2, id);
-		ps.setString(3, account.getName());
-		ps.setInt(4, account.getBalance());
-		ps.execute();
-		ctx.status(201);
-		ps.close();
+		System.out.println("It seems that Client ID# " + id + " wishes to open up a new Account.");
+		account = this.aserv.addAccount(account, id);
+		
+//		String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps = conn.prepareStatement(newAccount);
+//		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW HAVE TO SUPPLY IT
+//		ps.setInt(1, account.getId());
+//		ps.setInt(2, id);
+//		ps.setString(3, account.getName());
+//		ps.setInt(4, account.getBalance());
+//		ps.execute();
+//		ctx.status(201);
+//		ps.close();
 	};
 	public static Handler getAllAccounts = (ctx) -> {
 		String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";

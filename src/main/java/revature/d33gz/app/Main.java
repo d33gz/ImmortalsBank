@@ -3,27 +3,40 @@ package revature.d33gz.app;
 import io.javalin.Javalin;
 import revature.d33gz.controllers.AccountController;
 import revature.d33gz.controllers.ClientController;
+import revature.d33gz.dao.AccountDAO;
 import revature.d33gz.dao.ClientDAO;
+import revature.d33gz.dao.PostgresAccountDAO;
 import revature.d33gz.dao.PostgresClientDAO;
+import revature.d33gz.services.AccountService;
+import revature.d33gz.services.AccountServiceImplement;
 import revature.d33gz.services.ClientService;
 import revature.d33gz.services.ClientServiceImplement;
 
 public class Main {
 	public static void main(String[] args) {
-		String url = System.getenv("MY_DB_CONNECTION");
+		//Let's make our App
 		Javalin app = Javalin.create();
 		
+		//Prepare our Client Layers
 		ClientDAO cdao = new PostgresClientDAO();
 		ClientService cserv = new ClientServiceImplement(cdao);
 		ClientController clientController = new ClientController(cserv);
 		
+		//Prepare our Account Layers
+		AccountDAO adao = new PostgresAccountDAO();
+		AccountService aserv = new AccountServiceImplement(adao);
+		AccountController accountController = new AccountController(aserv);
+		
+		
+		
+		//Set up all of our Endpoints
 		app.get("/", ctx -> {ctx.result("Welcome to Immortals Bank!");});
 		app.get("/clients", clientController.getAllClients);
 		app.get("/clients/{id}", clientController.getOneClient);
 		app.put("/clients/{id}", clientController.updateClient);
 		app.post("/clients", clientController.addClient);
 		app.delete("/clients/{id}", clientController.deleteClient);
-		app.post("/accounts/{id}", AccountController.addAccount);
+		app.post("/accounts/{id}", accountController.addAccount);
 		app.get("/clients/{id}/accounts", AccountController.getAllAccounts);
 		app.get("/accounts", AccountController.getAccountsWithBalance);
 		app.get("/accounts/{id}", AccountController.getOneAccount);
@@ -31,6 +44,8 @@ public class Main {
 		app.delete("/accounts/{id}", AccountController.deleteAccount);
 		app.patch("/accounts/{id}/deposit", AccountController.deposit);
 		app.patch("/accounts/{id}/withdraw", AccountController.withdraw);
+		
+		//Starting our Application
 		app.start();
 	}
 }
