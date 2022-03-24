@@ -144,7 +144,7 @@ public class AccountController {
 		while (rs.next()) {
 			int currentBalance = rs.getInt("account_balance");
 			newBalance = currentBalance - amountToWithdraw.getBalance();
-			if (newBalance <= 0) {
+			if (newBalance < 0) {
 				ctx.result("No... That's impossible!!");
 			} else {
 				ps = conn.prepareStatement(updateAccountBalance);
