@@ -13,4 +13,7 @@ public interface AccountService {
 	Account getOneAccount(int id);
 	ArrayList<Account> getAccountsWithBalance(int less, int more);
 	
+	//U
+	void deposit(Account incomingAccount, int id);
+	void withdraw(Account incomingAccount, int id);
 }

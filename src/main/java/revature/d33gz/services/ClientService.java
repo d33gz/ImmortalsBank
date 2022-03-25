@@ -1,6 +1,5 @@
 package revature.d33gz.services;
 
-
 import java.util.ArrayList;
 
 import revature.d33gz.entity.Client;
@@ -18,5 +17,4 @@ public interface ClientService {
 	
 	//D
 	void deleteClient(int id);
-	
 }

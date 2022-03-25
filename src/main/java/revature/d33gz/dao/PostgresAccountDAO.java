@@ -101,4 +101,56 @@ public class PostgresAccountDAO implements AccountDAO {
 		}
 		return bList;
 	}
+	public void deposit(int newBalance, int id) {
+		try(Connection conn = ConnectionUtils.createConnection();) {
+			//String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
+			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+			//ps = conn.prepareStatement(getAccountBalance);
+			//ps.setInt(1, id);
+			//rs = ps.executeQuery();
+			//int newBalance;
+			//while (rs.next()) {
+				//int currentBalance = rs.getInt("account_balance");
+				//newBalance = currentBalance + amountToDeposit.getBalance();
+				ps = conn.prepareStatement(updateAccountBalance);
+				ps.setInt(1, newBalance);
+				ps.setInt(2, id);
+				ps.execute();
+				//ctx.status(200);
+			//}
+			//rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void withdraw(int newBalance, int id) {
+		try(Connection conn = ConnectionUtils.createConnection();) {
+//			String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
+			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+//			Connection conn = ConnectionUtils.createConnection();
+//			ps.setInt(1, id);
+//			rs = ps.executeQuery();
+//			int newBalance;
+//			while (rs.next()) {
+//				int currentBalance = rs.getInt("account_balance");
+//				newBalance = currentBalance - amountToWithdraw.getBalance();
+//				if (newBalance < 0) {
+//					ctx.result("No... That's impossible!!");
+//				} else {
+					ps = conn.prepareStatement(updateAccountBalance);
+					ps.setInt(1, newBalance);
+					ps.setInt(2, id);
+					ps.execute();
+//					ctx.status(200);
+//				}
+//			}
+//			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

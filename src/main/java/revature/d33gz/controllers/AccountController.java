@@ -17,14 +17,13 @@ public class AccountController {
 	private AccountService aserv;
 	public AccountController(AccountService accountService) {
 		this.aserv = accountService;
-	}
+	}	
 	
 	public Handler addAccount = (ctx) -> {
 		Account account = ctx.bodyAsClass(Account.class);
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("It seems that Client ID# " + id + " wishes to open up a new Account.");
 		account = this.aserv.addAccount(account, id);
-		
 //		String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
 //		Connection conn = ConnectionUtils.createConnection();
 //		ps = conn.prepareStatement(newAccount);
@@ -87,7 +86,6 @@ public class AccountController {
 		System.out.println("We're looking for the accounts with a Balance that is less than " + less + " and greater than " + more);
 		ArrayList<Account> bList = this.aserv.getAccountsWithBalance(less, more);
 		ctx.json(bList);
-		
 //		String selectAllAccountsWithBalanceOf = "SELECT * FROM account WHERE account_balance<? AND account_balance>?";
 //		Connection conn = ConnectionUtils.createConnection();
 //		ps = conn.prepareStatement(selectAllAccountsWithBalanceOf);
@@ -129,50 +127,56 @@ public class AccountController {
 		ctx.status(200);
 		ps.close();
 	};
-	public static Handler deposit = (ctx) -> {
-		String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
-		String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+	public Handler deposit = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Account amountToDeposit = ctx.bodyAsClass(Account.class);
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(getAccountBalance);
-		ps.setInt(1, id);
-		rs = ps.executeQuery();
-		int newBalance;
-		while (rs.next()) {
-			int currentBalance = rs.getInt("account_balance");
-			newBalance = currentBalance + amountToDeposit.getBalance();
-			ps = conn.prepareStatement(updateAccountBalance);
-			ps.setInt(1, newBalance);
-			ps.setInt(2, id);
-			ps.execute();
-			ctx.status(200);
-		}
-		rs.close();ps.close();
+		System.out.println("Client ID# " + id + " is trying to make a Deposit");
+		Account accountDepositing = ctx.bodyAsClass(Account.class);
+		this.aserv.deposit(accountDepositing, id);
+//		String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
+//		String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+//		int id = Integer.parseInt(ctx.pathParam("id"));
+//		Account amountToDeposit = ctx.bodyAsClass(Account.class);
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps = conn.prepareStatement(getAccountBalance);
+//		ps.setInt(1, id);
+//		rs = ps.executeQuery();
+//		int newBalance;
+//		while (rs.next()) {
+//			int currentBalance = rs.getInt("account_balance");
+//			newBalance = currentBalance + amountToDeposit.getBalance();
+//			ps = conn.prepareStatement(updateAccountBalance);
+//			ps.setInt(1, newBalance);
+//			ps.setInt(2, id);
+//			ps.execute();
+//			ctx.status(200);
+//		}
+//		rs.close();ps.close();
 	};
-	public static Handler withdraw = (ctx) -> {
-		String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
-		String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+	public Handler withdraw = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Account amountToWithdraw = ctx.bodyAsClass(Account.class);
-		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(getAccountBalance);
-		ps.setInt(1, id);
-		rs = ps.executeQuery();
-		int newBalance;
-		while (rs.next()) {
-			int currentBalance = rs.getInt("account_balance");
-			newBalance = currentBalance - amountToWithdraw.getBalance();
-			if (newBalance < 0) {
-				ctx.result("No... That's impossible!!");
-			} else {
-				ps = conn.prepareStatement(updateAccountBalance);
-				ps.setInt(1, newBalance);
-				ps.setInt(2, id);
-				ps.execute();
-				ctx.status(200);
-			}
-		}
-		rs.close();ps.close();
+		System.out.println("Client ID# " + id + " is trying to make a Withdrawal.");
+		Account accountWithdrawing = ctx.bodyAsClass(Account.class);
+		this.aserv.withdraw(accountWithdrawing, id);
+		
+//		String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
+//		String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+//		Connection conn = ConnectionUtils.createConnection();
+//		ps.setInt(1, id);
+//		rs = ps.executeQuery();
+//		int newBalance;
+//		while (rs.next()) {
+//			int currentBalance = rs.getInt("account_balance");
+//			newBalance = currentBalance - amountToWithdraw.getBalance();
+//			if (newBalance < 0) {
+//				ctx.result("No... That's impossible!!");
+//			} else {
+//				ps = conn.prepareStatement(updateAccountBalance);
+//				ps.setInt(1, newBalance);
+//				ps.setInt(2, id);
+//				ps.execute();
+//				ctx.status(200);
+//			}
+//		}
+//		rs.close();ps.close();
 	};
 }

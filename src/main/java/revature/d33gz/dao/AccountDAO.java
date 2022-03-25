@@ -12,4 +12,8 @@ public interface AccountDAO {
 	ArrayList<Account> getAllAccounts(int id);
 	Account getOneAccount(int id);
 	ArrayList<Account> getAccountsWithBalance(int less, int more);
+	
+	//U
+	void deposit(int newBalance, int id);
+	void withdraw(int newBalance, int id);
 }

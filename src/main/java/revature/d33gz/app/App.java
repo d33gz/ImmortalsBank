@@ -12,7 +12,7 @@ import revature.d33gz.services.AccountServiceImplement;
 import revature.d33gz.services.ClientService;
 import revature.d33gz.services.ClientServiceImplement;
 
-public class Main {
+public class App {
 	public static void main(String[] args) {
 		//Let's make our App
 		Javalin app = Javalin.create();
@@ -41,8 +41,8 @@ public class Main {
 		app.get("/accounts/{id}", accountController.getOneAccount);
 		app.get("/accounts", accountController.getAccountsWithBalance);
 		app.put("/accounts/{id}", AccountController.updateAccount);
-		app.patch("/accounts/{id}/deposit", AccountController.deposit);
-		app.patch("/accounts/{id}/withdraw", AccountController.withdraw);
+		app.patch("/accounts/{id}/deposit", accountController.deposit);
+		app.patch("/accounts/{id}/withdraw", accountController.withdraw);
 		app.delete("/accounts/{id}", AccountController.deleteAccount);
 		
 		//Starting our Application
