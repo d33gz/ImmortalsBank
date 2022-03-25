@@ -27,8 +27,6 @@ public class App {
 		AccountService aserv = new AccountServiceImplement(adao);
 		AccountController accountController = new AccountController(aserv);
 		
-		
-		
 		//Set up all of our Endpoints
 		app.get("/", ctx -> {ctx.result("Welcome to Immortals Bank!");});
 		app.post("/clients", clientController.addClient);

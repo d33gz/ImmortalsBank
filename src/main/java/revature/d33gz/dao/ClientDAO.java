@@ -6,7 +6,7 @@ import revature.d33gz.entity.Client;
 
 public interface ClientDAO {
 	//C
-	Client createClient(Client client);
+	boolean createClient(Client client);
 	
 	//R
 	ArrayList<Client> getAllClients();

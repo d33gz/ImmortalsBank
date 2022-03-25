@@ -13,7 +13,8 @@ public class PostgresClientDAO implements ClientDAO {
 	PreparedStatement ps;
 	ResultSet rs;
 	
-	public Client createClient(Client client) {
+	//Create
+	public boolean createClient(Client client) {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String newClient = "INSERT INTO client VALUES (?,?)";
 			ps = conn.prepareStatement(newClient);
@@ -21,21 +22,15 @@ public class PostgresClientDAO implements ClientDAO {
 			ps.setInt(1, client.getId());
 			ps.setString(2, client.getName());
 			ps.execute();
-//			try {
-//				ps.execute();
-//			} catch (SQLException e) {
-//				ctx.result("That ID is a Duplicate of another in the table");
-//				ctx.status(400);
-//			}
-//			ctx.status(201);
 			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		return client;
+		return true;
 	}
 	
+	//Read
 	public ArrayList<Client> getAllClients() {
 		ArrayList<Client> cList = new ArrayList<Client>();
 		try (Connection conn = ConnectionUtils.createConnection();) {

@@ -14,9 +14,9 @@ public class ClientServiceImplement implements ClientService {
 	}
 	
 	//Create
-	public Client addClient(Client client) {
-		this.cdao.createClient(client);
-		return client;
+	public boolean addClient(Client client) {
+		boolean yayOrNay = this.cdao.createClient(client);
+		return yayOrNay;
 	}
 	
 	//Read

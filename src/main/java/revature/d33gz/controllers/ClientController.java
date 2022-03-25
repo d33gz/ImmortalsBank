@@ -1,12 +1,9 @@
 package revature.d33gz.controllers;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
-import revature.d33gz.connection.ConnectionUtils;
 import revature.d33gz.entity.Client;
 import revature.d33gz.services.ClientService;
 
@@ -16,10 +13,7 @@ import io.javalin.http.Handler;
 public class ClientController {
 	static PreparedStatement ps;
 	static ResultSet rs;
-	//TEMP
 	static Statement stmt;
-	//TEMP
-	//Figure out later. Should be able to avoid Static with this
 	
 	private ClientService cserv;
 	public ClientController(ClientService clientService) {
@@ -28,15 +22,12 @@ public class ClientController {
 	
 	public Handler addClient = (ctx) -> {
 		Client client = ctx.bodyAsClass(Client.class);
+		if (this.cserv.addClient(client)) {
+			ctx.status(201);
+		} else {
+			ctx.status(404);
+		}
 		System.out.println("A warm welcome to our newest Client, " + client);
-		client = this.cserv.addClient(client);
-//		try {
-//			ps.execute();
-//		} catch (SQLException e) {
-//			ctx.result("That ID is a Duplicate of another in the table");
-//			ctx.status(400);
-//		}
-//		ctx.status(201);
 
 	};
 	public Handler getAllClients = (ctx) -> {
