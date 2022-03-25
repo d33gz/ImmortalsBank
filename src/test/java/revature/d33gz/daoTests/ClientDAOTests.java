@@ -65,9 +65,17 @@ public class ClientDAOTests {
 	
 	//Sad Paths
 	@Test
-	@Order(3)
+	@Order(6)
+	void badClientCreateTest() {
+		Client jf = new Client(207, "Joey Fatone");
+		cdao.createClient(jf);
+		Assertions.assertEquals(false, cdao.createClient(jf));
+	}
+	
+	@Test
+	@Order(7)
 	void getOneClientWithNoIdTest() {
-		Client jf = cdao.getOneClient(testClient.getId());
-		Assertions.assertEquals("Joey Fatone", jf.getName());
+		Client jf = cdao.getOneClient(702);
+		Assertions.assertNotEquals("Joey Fatone", jf.getName());
 	}
 }

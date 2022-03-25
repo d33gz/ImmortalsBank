@@ -46,15 +46,14 @@ public class ClientController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " coming up!");
 		Client client = this.cserv.getOneClient(id);
-		ctx.json(client);
-//		if (rs.getFetchSize() == 0) {
-//			ctx.result("Doesn't look like we have a Client with that ID here.");
-//			ctx.status(404);
-//		}
-//		while (rs.next()) {
-//			ctx.json(c);
-//			ctx.status(200);
-//		}
+		System.out.println(client);
+		if (client.getName() == null) {
+			ctx.result("Doesn't look like we have a Client with that ID here.");
+			ctx.status(404);
+		} else {
+			ctx.json(client);
+			ctx.status(200);
+		}
 	};
 	public Handler updateClient = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
