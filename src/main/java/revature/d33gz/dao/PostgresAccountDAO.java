@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import revature.d33gz.connection.ConnectionUtils;
 import revature.d33gz.entity.Account;
+import revature.d33gz.utilities.ConnectionUtils;
 
 public class PostgresAccountDAO implements AccountDAO {
 	PreparedStatement ps;

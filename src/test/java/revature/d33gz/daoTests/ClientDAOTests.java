@@ -26,7 +26,6 @@ public class ClientDAOTests {
 		ClientDAOTests.testClient = jf;
 		Assertions.assertEquals(207, jf.getId());
 	}
-	
 	@Test
 	@Order(2)
 	void getAllClientsTest() {
@@ -35,14 +34,12 @@ public class ClientDAOTests {
 		fullList = cdao.getAllClients();
 		Assertions.assertNotEquals(emptyList, fullList);
 	}
-	
 	@Test
 	@Order(3)
 	void getOneClientTest() {
 		Client jf = cdao.getOneClient(testClient.getId());
 		Assertions.assertEquals("Joey Fatone", jf.getName());
 	}
-	
 	@Test
 	@Order(4)
 	void updateClientTest() {
@@ -53,7 +50,6 @@ public class ClientDAOTests {
 		jf = cdao.getOneClient(testClient.getId());
 		Assertions.assertEquals(updateName, jf.getName());
 	}
-	
 	@Test
 	@Order(5)
 	void deleteClient() {
@@ -71,11 +67,10 @@ public class ClientDAOTests {
 		cdao.createClient(jf);
 		Assertions.assertEquals(false, cdao.createClient(jf));
 	}
-	
 	@Test
 	@Order(7)
 	void getOneClientWithNoIdTest() {
 		Client jf = cdao.getOneClient(702);
-		Assertions.assertNotEquals("Joey Fatone", jf.getName());
+		Assertions.assertEquals(null, jf.getName());
 	}
 }

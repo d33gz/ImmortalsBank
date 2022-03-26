@@ -31,8 +31,14 @@ public class ClientServiceImplement implements ClientService {
 
 	//Update
 	public Client updateClient(Client client, int id) {
-		this.cdao.updateClient(client, id);
-		return client;
+		Client returnClient;
+		Client checkingClient = this.cdao.getOneClient(id);
+		if (checkingClient == null) {
+			returnClient = checkingClient;
+		} else {
+			returnClient = this.cdao.updateClient(client, id);;
+		}
+		return returnClient;
 	}
 	
 	//Delete

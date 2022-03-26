@@ -48,5 +48,18 @@ You can:
 	      return 422 if insufficient funds
 
 
+Things to Do
 
+	* Create a nicer Random Id Generator so I can POST a Client without worrying about duplicate ID
+	* Create Service Layer Tests
+	* Sweep away out dated Code
+	* Ensure all Imports are in alphabetical order
+
+Files I am 100% happy with
+
+	* revature.d33gz.daoTests
+		I: ClientDAOTests
+				This file includes 7 Test Cases (5 Happy Paths and 2 Sad Paths).
+				All Tests are conducted on the DAO Layer corresponding to the Client Relation in the Database.
+	* 
 		

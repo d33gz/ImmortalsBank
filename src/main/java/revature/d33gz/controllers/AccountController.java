@@ -5,9 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import revature.d33gz.connection.ConnectionUtils;
+import revature.d33gz.dao.AccountDAO;
 import revature.d33gz.entity.Account;
 import revature.d33gz.services.AccountService;
+import revature.d33gz.utilities.ConnectionUtils;
 import io.javalin.http.Handler;
 
 public class AccountController {
@@ -17,7 +18,7 @@ public class AccountController {
 	private AccountService aserv;
 	public AccountController(AccountService accountService) {
 		this.aserv = accountService;
-	}	
+	}
 	
 	public Handler addAccount = (ctx) -> {
 		Account account = ctx.bodyAsClass(Account.class);

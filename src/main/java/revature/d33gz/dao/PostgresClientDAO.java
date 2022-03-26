@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import revature.d33gz.connection.ConnectionUtils;
 import revature.d33gz.entity.Client;
+import revature.d33gz.utilities.ConnectionUtils;
 
 public class PostgresClientDAO implements ClientDAO {
 	PreparedStatement ps;
@@ -44,22 +44,12 @@ public class PostgresClientDAO implements ClientDAO {
 				c = new Client(id, name);
 				cList.add(c);
 			}
-//			if (cList.size() == 0) {
-//				ctx.result("There are no Client's in the Bank of the Immortals right now.");
-//				ctx.status(400);
-//			} else {
-//				ctx.json(cList);
-//				ctx.status(200);
-//			}
-
 			rs.close();ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return cList;
 	}
-	
 	public Client getOneClient(int id) {
 		Client c = new Client();
 		try (Connection conn = ConnectionUtils.createConnection();) {
@@ -67,44 +57,29 @@ public class PostgresClientDAO implements ClientDAO {
 			ps = conn.prepareStatement(selectOneClient);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
-//			if (rs.getFetchSize() == 0) {
-//				ctx.result("Doesn't look like we have a Client with that ID here.");
-//				ctx.status(404);
-//			}
 			while (rs.next()) {
 				int cId = rs.getInt("client_id");
 				String cName = rs.getString("client_name");
 				c = new Client(cId, cName);
-//				ctx.json(c);
-//				ctx.status(200);
 			}
 			rs.close();ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 		return c;
 	}
 	
+	//Update
 	public Client updateClient(Client client, int id) {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String updateClientString = "UPDATE client SET client_name=? WHERE client_id=?";
-//			// v Convert this into a Callable Statement v
-//			stmt = conn.createStatement();
-//			rs = stmt.executeQuery("SELECT * FROM client WHERE client_id="+id);
-//			if (rs.getFetchSize() == 0) {
-//				ctx.result("Doesn't look like we have a Client with that ID here.");
-//				ctx.status(404);
-//			} else {
-//			// ^ ^ ^
-				ps = conn.prepareStatement(updateClientString);
-				ps.setString(1, client.getName());
-				ps.setInt(2, id);
-				ps.execute();
-				ps.close();
-			//}
+			ps = conn.prepareStatement(updateClientString);
+			ps.setString(1, client.getName());
+			ps.setInt(2, id);
+			ps.execute();
+			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return client;
