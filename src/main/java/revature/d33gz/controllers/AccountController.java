@@ -34,10 +34,14 @@ public class AccountController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " wants to check out all of their Accounts.");
 		ArrayList<Account> aList = this.aserv.getAllAccounts(id);
-		System.out.println(aList);
-		if (aList.size() == 0) {
-			System.out.println("Can't find a Client with ID# " + id + " or maybe an Account for them.");
-			ctx.result("Hmm... doesn't seem to be a Client with that ID here... Or maybe they don't have any Accounts...");
+		Account clientChecking = aList.get(0);
+		if (clientChecking.getId() == -1) {
+			System.out.println("Can't find a Client with ID# " + id);
+			ctx.result("Hmm... doesn't seem to be a Client with that ID here...");
+			ctx.status(404);
+		} else if (clientChecking.getId() == 0) {
+			System.out.println("Client ID# " + id + " doesn't have any Accounts.");
+			ctx.result("Hmm... doesn't seem like that Client has any Accounts...");
 			ctx.status(404);
 		} else {
 			System.out.println("Here are all the Accounts for Client ID# " + id);

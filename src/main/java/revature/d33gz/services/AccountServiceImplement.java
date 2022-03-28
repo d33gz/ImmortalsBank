@@ -3,25 +3,47 @@ package revature.d33gz.services;
 import java.util.ArrayList;
 
 import revature.d33gz.dao.AccountDAO;
+import revature.d33gz.dao.ClientDAO;
 import revature.d33gz.entity.Account;
+import revature.d33gz.entity.Client;
 
 public class AccountServiceImplement implements AccountService {
 	private AccountDAO adao;
+	private ClientDAO cdao;
 	
 	//Constructor
-	public AccountServiceImplement(AccountDAO accountDAO) {
+	public AccountServiceImplement(AccountDAO accountDAO, ClientDAO clientDAO) {
 		this.adao = accountDAO;
+		this.cdao = clientDAO;
 	}
 	
 	//Create
 	public boolean addAccount(Account account, int id) {
-		boolean returnAccount = this.adao.createAccount(account, id);
+		boolean returnAccount;
+		Client checkingClient = this.cdao.getOneClient(id);
+		if (checkingClient.getId() == 0) {
+			returnAccount = false;
+		} else {
+			returnAccount = this.adao.createAccount(account, id);
+		}
 		return returnAccount;
 	}
 	
 	//Read
 	public ArrayList<Account> getAllAccounts(int id) {
 		ArrayList<Account> returnList = new ArrayList<Account>();
+		Client checkingClient = this.cdao.getOneClient(id);
+		if (checkingClient.getId() == 0) {
+			Account clientFailure = new Account(-1, -1, "noName", -1);
+			returnList.add(clientFailure);
+			return returnList;
+		} else {
+			returnList = this.adao.getAllAccounts(id);
+		}
+		if (returnList.size() == 0) {
+			Account accountFailure = new Account(0, 0, "noAccounts", 0);
+			returnList.add(accountFailure);
+		}
 		return returnList;
 	}
 	public Account getOneAccount(int id) {

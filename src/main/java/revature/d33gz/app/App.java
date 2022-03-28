@@ -24,7 +24,7 @@ public class App {
 		
 		//Prepare our Account Layers
 		AccountDAO adao = new PostgresAccountDAO();
-		AccountService aserv = new AccountServiceImplement(adao);
+		AccountService aserv = new AccountServiceImplement(adao, cdao);
 		AccountController accountController = new AccountController(aserv);
 		
 		//Set up all of our Endpoints
