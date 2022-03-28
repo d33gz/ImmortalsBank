@@ -13,10 +13,9 @@ public class PostgresAccountDAO implements AccountDAO {
 	PreparedStatement ps;
 	ResultSet rs;
 	
-	public Account createAccount(Account account, int id) {
+	public boolean createAccount(Account account, int id) {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
-			
 			ps = conn.prepareStatement(newAccount);
 			//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW HAVE TO SUPPLY IT
 			ps.setInt(1, account.getId());
@@ -24,13 +23,12 @@ public class PostgresAccountDAO implements AccountDAO {
 			ps.setString(3, account.getName());
 			ps.setInt(4, account.getBalance());
 			ps.execute();
-			//ctx.status(201);
 			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		return account;
+		return true;
 	}
 	public ArrayList<Account> getAllAccounts(int id){
 		ArrayList<Account> aList = new ArrayList<Account>();
@@ -50,7 +48,6 @@ public class PostgresAccountDAO implements AccountDAO {
 			}
 			rs.close();ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		return aList;
@@ -72,7 +69,6 @@ public class PostgresAccountDAO implements AccountDAO {
 			rs.close();ps.close();
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return a;

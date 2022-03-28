@@ -85,17 +85,17 @@ public class PostgresClientDAO implements ClientDAO {
 		return client;
 	}
 	
-	public void deleteClient(int id) {
+	public boolean deleteClient(int id) {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String deleteClient = "DELETE FROM client WHERE client_id=?";
 			ps = conn.prepareStatement(deleteClient);
 			ps.setInt(1, id);
 			ps.execute();
-//			ctx.status(200);
 			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 }

@@ -2,6 +2,7 @@ package revature.d33gz.daoTests;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -17,14 +18,20 @@ public class ClientDAOTests {
 	private static ClientDAO cdao = new PostgresClientDAO();
 	private static Client testClient = null;
 	
+	//Do this to make sure the DB is empty before starting Tests
+	@AfterAll
+	static void cleanseDB() {
+		cdao.deleteClient(207);
+	}
+	
 	//Happy Paths
 	@Test
 	@Order(1)
 	void createClientTest() {
 		Client jf = new Client(207, "Joey Fatone");
-		cdao.createClient(jf);
+		boolean testBoolean = cdao.createClient(jf);
 		ClientDAOTests.testClient = jf;
-		Assertions.assertEquals(207, jf.getId());
+		Assertions.assertEquals(true, testBoolean);
 	}
 	@Test
 	@Order(2)

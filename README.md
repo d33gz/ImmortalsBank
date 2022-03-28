@@ -50,15 +50,31 @@ You can:
 
 Things to Do
 
-	* Create a nicer Random Id Generator so I can POST a Client without worrying about duplicate ID
-	* Create Service Layer Tests
-	* Sweep away out dated Code
-	* Ensure all Imports are in alphabetical order
+ 	
+	*** 
+	
+	** CreateAccount needs a way of handling Errors if not Client
+	** Change CreateClient/Account to not use a Boolean
+	** Create a Random Id Generator so I can POST a Client without worrying about duplicate ID.
+	** Create Service Layer Tests.
+	** Sweep away out dated Code.
+	
+	* Return the newly created Client as a JSON Object.
+	* Ensure all Imports are in alphabetical order.
 
 Files I am 100% happy with
 
+	* revature.d33gz.app
+		I: App.java
+				This file includes everything needed to start the Application.
+				It contains 4 sections,
+					1) Create's a Javalin instance.
+					2) Creation of Object Layers.
+					3) All the Endpoints.
+					4) Starts the Server.
+					
 	* revature.d33gz.daoTests
-		I: ClientDAOTests
+		I: ClientDAOTests.java
 				This file includes 7 Test Cases (5 Happy Paths and 2 Sad Paths).
 				All Tests are conducted on the DAO Layer corresponding to the Client Relation in the Database.
 	* 

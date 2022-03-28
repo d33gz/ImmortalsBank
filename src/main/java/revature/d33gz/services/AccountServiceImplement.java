@@ -14,15 +14,15 @@ public class AccountServiceImplement implements AccountService {
 	}
 	
 	//Create
-	public Account addAccount(Account account, int id) {
-		this.adao.createAccount(account, id);
-		return account;
+	public boolean addAccount(Account account, int id) {
+		boolean returnAccount = this.adao.createAccount(account, id);
+		return returnAccount;
 	}
 	
 	//Read
 	public ArrayList<Account> getAllAccounts(int id) {
-		ArrayList<Account> accounts = this.adao.getAllAccounts(id);
-		return accounts;
+		ArrayList<Account> returnList = new ArrayList<Account>();
+		return returnList;
 	}
 	public Account getOneAccount(int id) {
 		Account account = this.adao.getOneAccount(id);

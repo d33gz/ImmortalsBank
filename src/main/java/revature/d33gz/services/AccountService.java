@@ -6,7 +6,7 @@ import revature.d33gz.entity.Account;
 
 public interface AccountService {
 	//C
-	Account addAccount(Account account, int id);
+	boolean addAccount(Account account, int id);
 	
 	//R
 	ArrayList<Account> getAllAccounts(int id);

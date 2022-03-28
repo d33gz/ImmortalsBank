@@ -6,7 +6,7 @@ import revature.d33gz.entity.Account;
 
 public interface AccountDAO {
 	//C
-	Account createAccount(Account account, int id);
+	boolean createAccount(Account account, int id);
 	
 	//R
 	ArrayList<Account> getAllAccounts(int id);

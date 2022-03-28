@@ -33,7 +33,7 @@ public class ClientServiceImplement implements ClientService {
 	public Client updateClient(Client client, int id) {
 		Client returnClient;
 		Client checkingClient = this.cdao.getOneClient(id);
-		if (checkingClient == null) {
+		if (checkingClient.getId() == 0) {
 			returnClient = checkingClient;
 		} else {
 			returnClient = this.cdao.updateClient(client, id);;
@@ -42,7 +42,15 @@ public class ClientServiceImplement implements ClientService {
 	}
 	
 	//Delete
-	public void deleteClient(int id) {
-		this.cdao.deleteClient(id);
+	public boolean deleteClient(int id) {
+		boolean yayOrNay;
+		Client checkingClient = this.cdao.getOneClient(id);
+		System.out.println(checkingClient);
+		if (checkingClient.getId() == 0) {
+			yayOrNay = false;
+		} else {
+			yayOrNay = this.cdao.deleteClient(id);
+		}
+		return yayOrNay;
 	}
 }

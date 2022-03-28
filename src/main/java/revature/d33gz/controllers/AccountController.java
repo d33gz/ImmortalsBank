@@ -12,59 +12,56 @@ import revature.d33gz.utilities.ConnectionUtils;
 import io.javalin.http.Handler;
 
 public class AccountController {
-	static PreparedStatement ps;
-	static ResultSet rs;
-	
+	//Constructor
 	private AccountService aserv;
 	public AccountController(AccountService accountService) {
 		this.aserv = accountService;
 	}
 	
+	//Create
 	public Handler addAccount = (ctx) -> {
 		Account account = ctx.bodyAsClass(Account.class);
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("It seems that Client ID# " + id + " wishes to open up a new Account.");
-		account = this.aserv.addAccount(account, id);
-//		String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(newAccount);
-//		//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW HAVE TO SUPPLY IT
-//		ps.setInt(1, account.getId());
-//		ps.setInt(2, id);
-//		ps.setString(3, account.getName());
-//		ps.setInt(4, account.getBalance());
-//		ps.execute();
-//		ctx.status(201);
-//		ps.close();
+		if (this.aserv.addAccount(account, id)) {
+			System.out.println("A new Account has been succesfully created.");
+			ctx.result("Client ID# " + id + ", Congratulations on your new account!");
+			ctx.status(201);
+		} else {
+			System.out.println("Something went wrong with adding a new Account.");
+			ctx.result("We weren't able to add an Account at this time.");
+			ctx.status(404);
+		}
 	};
+	
+	//Read
 	public Handler getAllAccounts = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " wants to check out all of their Accounts.");
 		ArrayList<Account> aList = this.aserv.getAllAccounts(id);
-		ctx.json(aList);
-//		String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(selectAllAccounts);
-//		ps.setInt(1, id);
-//		rs = ps.executeQuery();
-//		ArrayList<Account> aList = new ArrayList<Account>();
-//		Account a;
-//		while (rs.next()) {
-//			int aId = rs.getInt("account_id");
-//			int oId = rs.getInt("account_owner");
-//			String aName = rs.getString("account_name");
-//			int aBal = rs.getInt("account_balance");
-//			a = new Account(aId, oId, aName, aBal);
-//			aList.add(a);
-//		}
-//		ctx.json(aList);
-//		rs.close();ps.close();
+		if (aList.size() == 0) {
+			System.out.println("Can't find a Client with ID# " + id + " or maybe an Account for them.");
+			ctx.result("Hmm... doesn't seem to be a Client with that ID here... Or maybe they don't have any Accounts...");
+			ctx.status(404);
+		} else {
+			System.out.println("Here are all the Accounts for Client ID# " + id);
+			ctx.json(aList);
+			ctx.status(200);
+		}
 	};
 	public Handler getOneAccount = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("We are looking for an Account with ID# " + id);
 		Account account = this.aserv.getOneAccount(id);
-		ctx.json(account);
+		if (account.getId() == 0) {
+			System.out.println("No Acccount found with ID# " + id);
+			ctx.result("No Account found.");
+			ctx.status(404);
+		} else {
+			System.out.println("Account found!");
+			ctx.json(account);
+			ctx.status(200);
+		}
 //		String selectOneAccount = "SELECT * FROM account WHERE account_id=?";
 //		Connection conn = ConnectionUtils.createConnection();
 //		ps = conn.prepareStatement(selectOneAccount);
@@ -111,22 +108,22 @@ public class AccountController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		Account accountOne = ctx.bodyAsClass(Account.class);
 		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(updateAccount);
-		ps.setString(1, accountOne.getName());
-		ps.setInt(2, id);
-		ps.execute();
-		ctx.status(200);
-		ps.close();
+//		ps = conn.prepareStatement(updateAccount);
+//		ps.setString(1, accountOne.getName());
+//		ps.setInt(2, id);
+//		ps.execute();
+//		ctx.status(200);
+//		ps.close();
 	};
 	public static Handler deleteAccount = (ctx) -> {
 		String deleteClient = "DELETE FROM account WHERE account_id=?";
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		Connection conn = ConnectionUtils.createConnection();
-		ps = conn.prepareStatement(deleteClient);
-		ps.setInt(1, id);
-		ps.execute();
-		ctx.status(200);
-		ps.close();
+//		ps = conn.prepareStatement(deleteClient);
+//		ps.setInt(1, id);
+//		ps.execute();
+//		ctx.status(200);
+//		ps.close();
 	};
 	public Handler deposit = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
