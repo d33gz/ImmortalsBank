@@ -28,11 +28,21 @@ public class AccountServiceImplement implements AccountService {
 		Account account = this.adao.getOneAccount(id);
 		return account;
 	}
-	
-	//Update
 	public ArrayList<Account> getAccountsWithBalance(int less, int more) {
 		ArrayList<Account> accounts = this.adao.getAccountsWithBalance(less, more);
 		return accounts;
+	}
+	
+	//Update
+	public Account updateAccount(Account account, int id) {
+		Account returnAccount;
+		Account checkingAccount = this.adao.getOneAccount(id);
+		if (checkingAccount.getId() == 0) {
+			returnAccount = checkingAccount;
+		} else {
+			returnAccount = this.adao.updateAccount(account, id);
+		}
+		return returnAccount;
 	}
 	public void deposit(Account incomingAccount, int id) {
 		Account currentAccount = this.adao.getOneAccount(id);

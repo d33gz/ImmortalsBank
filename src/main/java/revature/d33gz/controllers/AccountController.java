@@ -39,6 +39,7 @@ public class AccountController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " wants to check out all of their Accounts.");
 		ArrayList<Account> aList = this.aserv.getAllAccounts(id);
+		System.out.println(aList);
 		if (aList.size() == 0) {
 			System.out.println("Can't find a Client with ID# " + id + " or maybe an Account for them.");
 			ctx.result("Hmm... doesn't seem to be a Client with that ID here... Or maybe they don't have any Accounts...");
@@ -62,21 +63,6 @@ public class AccountController {
 			ctx.json(account);
 			ctx.status(200);
 		}
-//		String selectOneAccount = "SELECT * FROM account WHERE account_id=?";
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(selectOneAccount);
-//		ps.setInt(1, id);
-//		rs = ps.executeQuery();
-//		Account a;
-//		while (rs.next()) {
-//			int aId = rs.getInt("account_id");
-//			int oId = rs.getInt("account_owner");
-//			String aName = rs.getString("account_name");
-//			int aBal = rs.getInt("account_balance");
-//			a = new Account(aId, oId, aName, aBal);
-//			ctx.json(a);
-//		}
-//		rs.close();ps.close();
 	};
 	public Handler getAccountsWithBalance = (ctx) -> {
 		int less = Integer.parseInt(ctx.queryParam("balanceLessThan"));
@@ -84,30 +70,34 @@ public class AccountController {
 		System.out.println("We're looking for the accounts with a Balance that is less than " + less + " and greater than " + more);
 		ArrayList<Account> bList = this.aserv.getAccountsWithBalance(less, more);
 		ctx.json(bList);
-//		String selectAllAccountsWithBalanceOf = "SELECT * FROM account WHERE account_balance<? AND account_balance>?";
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(selectAllAccountsWithBalanceOf);
-//		ps.setInt(1, less);
-//		ps.setInt(2, more);
-//		rs = ps.executeQuery();
-//		ArrayList<Account> aList = new ArrayList<Account>();
-//		Account a;
-//		while (rs.next()) {
-//			int aId = rs.getInt("account_id");
-//			int oId = rs.getInt("account_owner");
-//			String aName = rs.getString("account_name");
-//			int aBal = rs.getInt("account_balance");
-//			a = new Account(aId, oId, aName, aBal);
-//			aList.add(a);
-//		}
-//		ctx.json(aList);
-//		rs.close();ps.close();
+		if (bList.size() == 0) {
+			System.out.println("There are no valid Accounts here.");
+			ctx.result("We aren't finding any Accounts with a Balance between " + less + " and " + more + " dollars.");
+			ctx.status(404);
+		} else {
+			System.out.println("Here are the valid Accounts");
+			ctx.json(bList);
+			ctx.status(200);
+		}
 	};
-	public static Handler updateAccount = (ctx) -> {
-		String updateAccount = "UPDATE account SET account_name=? WHERE account_id=?";
+	
+	//Update
+	public Handler updateAccount = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
-		Account accountOne = ctx.bodyAsClass(Account.class);
-		Connection conn = ConnectionUtils.createConnection();
+		System.out.println("Account ID# " + id + " is going to be updated.");
+		Account accountToUpdate = ctx.bodyAsClass(Account.class);
+		System.out.println("Takting out " + accountToUpdate);
+		Account updatedAccount = this.aserv.updateAccount(accountToUpdate, id);
+		System.out.println("Putting out " + updatedAccount);
+		if (updatedAccount.getId() == 0) {
+			System.out.println("Doesn't seem to be an Account ID# " + id + " here.");
+			ctx.result("Can't seem to find an Account with that ID.");
+			ctx.status(404);
+		} else {
+			System.out.println("Account has been updated.");
+			ctx.result("Account updated!");
+			ctx.status(200);
+		}
 //		ps = conn.prepareStatement(updateAccount);
 //		ps.setString(1, accountOne.getName());
 //		ps.setInt(2, id);

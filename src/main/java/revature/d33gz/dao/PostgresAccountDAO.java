@@ -13,6 +13,7 @@ public class PostgresAccountDAO implements AccountDAO {
 	PreparedStatement ps;
 	ResultSet rs;
 	
+	//Create
 	public boolean createAccount(Account account, int id) {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
@@ -30,6 +31,8 @@ public class PostgresAccountDAO implements AccountDAO {
 		}
 		return true;
 	}
+	
+	//Read
 	public ArrayList<Account> getAllAccounts(int id){
 		ArrayList<Account> aList = new ArrayList<Account>();
 		try(Connection conn = ConnectionUtils.createConnection();) {
@@ -97,6 +100,21 @@ public class PostgresAccountDAO implements AccountDAO {
 		}
 		return bList;
 	}
+	
+	//Update
+	public Account updateAccount(Account account, int id) {
+		try (Connection conn = ConnectionUtils.createConnection()) {
+			String updateAccount = "UPDATE account SET account_name=? WHERE account_id=?";
+			ps = conn.prepareStatement(updateAccount);
+			ps.setString(1, account.getName());
+			ps.setInt(2, id);
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return account;
+	};
 	public void deposit(int newBalance, int id) {
 		try(Connection conn = ConnectionUtils.createConnection();) {
 			//String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";

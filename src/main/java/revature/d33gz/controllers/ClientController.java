@@ -68,6 +68,7 @@ public class ClientController {
 			ctx.result("Doesn't look like we have a Client with that ID here.");
 			ctx.status(404);
 		} else {
+			System.out.println("Client has been updated.");
 			ctx.result("The Client has been updated.\nHere they are: ID#: " + id + " Name: " + updatedClient.getName());
 			ctx.status(200);
 		}

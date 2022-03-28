@@ -51,11 +51,14 @@ You can:
 Things to Do
 
  	
-	*** 
+	*** GetAllAccounts doesn't 404 well. It can't tell the difference between no Client and a Client with No Accounts
+	*** Lot's of Issues finding Client ID for Account DAO Stuff. Make a Callable Statement.
 	
 	** CreateAccount needs a way of handling Errors if not Client
 	** Change CreateClient/Account to not use a Boolean
 	** Create a Random Id Generator so I can POST a Client without worrying about duplicate ID.
+	** Make sure 404 is correct for all Accounts Balance between two Numbers.
+	** Add Validation in case two Queries aren't provided for all Accounts Balance between two Numbers.
 	** Create Service Layer Tests.
 	** Sweep away out dated Code.
 	
