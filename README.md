@@ -52,7 +52,7 @@ Things to Do
 
  	
 	*** GetAllAccounts doesn't 404 well. It can't tell the difference between no Client and a Client with No Accounts
-	*** Lot's of Issues finding Client ID for Account DAO Stuff. Make a Callable Statement.
+	*** Lot's of Issues finding Client ID for Account DAO Stuff. Make a Callable Statement maybe.
 	
 	** CreateAccount needs a way of handling Errors if not Client
 	** Change CreateClient/Account to not use a Boolean

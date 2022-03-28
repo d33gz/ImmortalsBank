@@ -41,7 +41,7 @@ public class App {
 		app.put("/accounts/{id}", accountController.updateAccount);
 		app.patch("/accounts/{id}/deposit", accountController.deposit);
 		app.patch("/accounts/{id}/withdraw", accountController.withdraw);
-		app.delete("/accounts/{id}", AccountController.deleteAccount);
+		app.delete("/accounts/{id}", accountController.deleteAccount);
 		
 		//Starting our Application
 		app.start(1337);

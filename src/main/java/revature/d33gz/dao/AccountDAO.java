@@ -17,4 +17,7 @@ public interface AccountDAO {
 	Account updateAccount(Account account, int id);
 	void deposit(int newBalance, int id);
 	void withdraw(int newBalance, int id);
+	
+	//D
+	boolean deleteAccount(int id);
 }

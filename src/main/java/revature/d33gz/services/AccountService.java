@@ -17,4 +17,7 @@ public interface AccountService {
 	Account updateAccount(Account account, int id);
 	void deposit(Account incomingAccount, int id);
 	void withdraw(Account incomingAccount, int id);
+	
+	//D
+	boolean deleteAccount(int id);
 }

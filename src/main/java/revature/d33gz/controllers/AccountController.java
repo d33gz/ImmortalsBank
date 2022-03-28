@@ -1,14 +1,9 @@
 package revature.d33gz.controllers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import revature.d33gz.dao.AccountDAO;
 import revature.d33gz.entity.Account;
 import revature.d33gz.services.AccountService;
-import revature.d33gz.utilities.ConnectionUtils;
 import io.javalin.http.Handler;
 
 public class AccountController {
@@ -98,73 +93,33 @@ public class AccountController {
 			ctx.result("Account updated!");
 			ctx.status(200);
 		}
-//		ps = conn.prepareStatement(updateAccount);
-//		ps.setString(1, accountOne.getName());
-//		ps.setInt(2, id);
-//		ps.execute();
-//		ctx.status(200);
-//		ps.close();
-	};
-	public static Handler deleteAccount = (ctx) -> {
-		String deleteClient = "DELETE FROM account WHERE account_id=?";
-		int id = Integer.parseInt(ctx.pathParam("id"));
-		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(deleteClient);
-//		ps.setInt(1, id);
-//		ps.execute();
-//		ctx.status(200);
-//		ps.close();
 	};
 	public Handler deposit = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " is trying to make a Deposit");
 		Account accountDepositing = ctx.bodyAsClass(Account.class);
 		this.aserv.deposit(accountDepositing, id);
-//		String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
-//		String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
-//		int id = Integer.parseInt(ctx.pathParam("id"));
-//		Account amountToDeposit = ctx.bodyAsClass(Account.class);
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps = conn.prepareStatement(getAccountBalance);
-//		ps.setInt(1, id);
-//		rs = ps.executeQuery();
-//		int newBalance;
-//		while (rs.next()) {
-//			int currentBalance = rs.getInt("account_balance");
-//			newBalance = currentBalance + amountToDeposit.getBalance();
-//			ps = conn.prepareStatement(updateAccountBalance);
-//			ps.setInt(1, newBalance);
-//			ps.setInt(2, id);
-//			ps.execute();
-//			ctx.status(200);
-//		}
-//		rs.close();ps.close();
+		
 	};
 	public Handler withdraw = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " is trying to make a Withdrawal.");
 		Account accountWithdrawing = ctx.bodyAsClass(Account.class);
 		this.aserv.withdraw(accountWithdrawing, id);
-		
-//		String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
-//		String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
-//		Connection conn = ConnectionUtils.createConnection();
-//		ps.setInt(1, id);
-//		rs = ps.executeQuery();
-//		int newBalance;
-//		while (rs.next()) {
-//			int currentBalance = rs.getInt("account_balance");
-//			newBalance = currentBalance - amountToWithdraw.getBalance();
-//			if (newBalance < 0) {
-//				ctx.result("No... That's impossible!!");
-//			} else {
-//				ps = conn.prepareStatement(updateAccountBalance);
-//				ps.setInt(1, newBalance);
-//				ps.setInt(2, id);
-//				ps.execute();
-//				ctx.status(200);
-//			}
-//		}
-//		rs.close();ps.close();
+	};
+	
+	//Delete
+	public Handler deleteAccount = (ctx) -> {
+		int id = Integer.parseInt(ctx.pathParam("id"));
+		System.out.println("We are going to get rid of Account ID# " + id);
+		if (this.aserv.deleteAccount(id)) {
+			System.out.println("Account ID# " +  id + " has been deleted.");
+			ctx.result("Your Account has officially been closed.");
+			ctx.status(200);
+		} else {
+			System.out.println("That Client doesn't exist.");
+			ctx.result("We can't find a Client with that ID.");
+			ctx.status(404);
+		}		
 	};
 }

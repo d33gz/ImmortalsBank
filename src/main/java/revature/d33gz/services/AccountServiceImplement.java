@@ -61,4 +61,9 @@ public class AccountServiceImplement implements AccountService {
 		if (newBalance < 0)	System.out.println("No... That's impossible!!");
 		else this.adao.withdraw(newBalance, id);
 	}
+	
+	//Delete
+	public boolean deleteAccount(int id) {
+		return this.adao.deleteAccount(id);
+	}
 }

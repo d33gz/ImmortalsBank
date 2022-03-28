@@ -79,11 +79,11 @@ public class ClientController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("It seems that Client #ID " + id + " wants to leave our bank.");
 		if (this.cserv.deleteClient(id)) {
-			System.out.println("Client #ID " + id + " has been deleted.");
+			System.out.println("Client ID# " + id + " has been deleted.");
 			ctx.result("Goodbye, we enjoyed being your bank while it lasted!");
 			ctx.status(205);
 		} else {
-			System.out.print("There is no Client with ID# "+ id);
+			System.out.println("There is no Client with ID# "+ id);
 			ctx.result("There doesn't actually appear to be a Client with that ID here...");
 			ctx.status(404);
 		}
