@@ -81,4 +81,12 @@ Files I am 100% happy with
 				This file includes 7 Test Cases (5 Happy Paths and 2 Sad Paths).
 				All Tests are conducted on the DAO Layer corresponding to the Client Relation in the Database.
 	* 
-		
+	
+Files I am 90% happy with
+
+	* revature.d33gz.daoTests
+		I: AccountDAOTests.java
+				This file includes 6 Test Cases (6 Happy Paths and 0 Sad Paths).
+				All Tests are conducted on the DAO Layer corresponding to the Account Relation in the Database.
+				There are no Tests for Withdraw or Deposit as their logic is handled on the Service Layer. Really they are UpdateAccount now that I think about it, and can probably be deleted.
+				There are no Sad Paths.

@@ -9,7 +9,7 @@ public interface AccountService {
 	boolean addAccount(Account account, int id);
 	
 	//R
-	ArrayList<Account> getAllAccounts(int id);
+	ArrayList<Account> getAllAccountsForClient(int id);
 	Account getOneAccount(int id);
 	ArrayList<Account> getAccountsWithBalance(int less, int more);
 	

@@ -33,7 +33,7 @@ public class PostgresAccountDAO implements AccountDAO {
 	}
 	
 	//Read
-	public ArrayList<Account> getAllAccounts(int id){
+	public ArrayList<Account> getAllAccountsForClient(int id){
 		ArrayList<Account> aList = new ArrayList<Account>();
 		try(Connection conn = ConnectionUtils.createConnection();) {
 			String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";

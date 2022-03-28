@@ -33,7 +33,7 @@ public class AccountController {
 	public Handler getAllAccounts = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " wants to check out all of their Accounts.");
-		ArrayList<Account> aList = this.aserv.getAllAccounts(id);
+		ArrayList<Account> aList = this.aserv.getAllAccountsForClient(id);
 		Account clientChecking = aList.get(0);
 		if (clientChecking.getId() == -1) {
 			System.out.println("Can't find a Client with ID# " + id);

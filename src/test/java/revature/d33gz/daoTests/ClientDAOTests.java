@@ -18,7 +18,7 @@ public class ClientDAOTests {
 	private static ClientDAO cdao = new PostgresClientDAO();
 	private static Client testClient = null;
 	
-	//Do this to make sure the DB is empty before starting Tests
+	//Do this to make sure the DB is empty of Test Data before starting Tests
 	@AfterAll
 	static void cleanseDB() {
 		cdao.deleteClient(207);
@@ -50,12 +50,9 @@ public class ClientDAOTests {
 	@Test
 	@Order(4)
 	void updateClientTest() {
-		Client jf = cdao.getOneClient(testClient.getId());
-		String updateName = "Slick Rick";
-		jf.setName(updateName);
-		cdao.updateClient(jf, testClient.getId());
-		jf = cdao.getOneClient(testClient.getId());
-		Assertions.assertEquals(updateName, jf.getName());
+		Client updateClient = new Client (207, "Slick Rick");
+		cdao.updateClient(updateClient, testClient.getId());
+		Assertions.assertEquals(updateClient.toString(), cdao.getOneClient(testClient.getId()).toString());
 	}
 	@Test
 	@Order(5)

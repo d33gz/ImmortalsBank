@@ -30,7 +30,7 @@ public class AccountServiceImplement implements AccountService {
 	}
 	
 	//Read
-	public ArrayList<Account> getAllAccounts(int id) {
+	public ArrayList<Account> getAllAccountsForClient(int id) {
 		ArrayList<Account> returnList = new ArrayList<Account>();
 		Client checkingClient = this.cdao.getOneClient(id);
 		if (checkingClient.getId() == 0) {
@@ -38,7 +38,7 @@ public class AccountServiceImplement implements AccountService {
 			returnList.add(clientFailure);
 			return returnList;
 		} else {
-			returnList = this.adao.getAllAccounts(id);
+			returnList = this.adao.getAllAccountsForClient(id);
 		}
 		if (returnList.size() == 0) {
 			Account accountFailure = new Account(0, 0, "noAccounts", 0);
