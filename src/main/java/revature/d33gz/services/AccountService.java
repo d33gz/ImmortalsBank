@@ -6,14 +6,18 @@ import revature.d33gz.entity.Account;
 
 public interface AccountService {
 	//C
-	Account addAccount(Account account, int id);
+	boolean addAccount(Account account, int id);
 	
 	//R
-	ArrayList<Account> getAllAccounts(int id);
+	ArrayList<Account> getAllAccountsForClient(int id);
 	Account getOneAccount(int id);
 	ArrayList<Account> getAccountsWithBalance(int less, int more);
 	
 	//U
+	Account updateAccount(Account account, int id);
 	void deposit(Account incomingAccount, int id);
 	void withdraw(Account incomingAccount, int id);
+	
+	//D
+	boolean deleteAccount(int id);
 }

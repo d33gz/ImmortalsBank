@@ -6,17 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import revature.d33gz.connection.ConnectionUtils;
 import revature.d33gz.entity.Account;
+import revature.d33gz.utilities.ConnectionUtils;
 
 public class PostgresAccountDAO implements AccountDAO {
 	PreparedStatement ps;
 	ResultSet rs;
 	
-	public Account createAccount(Account account, int id) {
+	//Create
+	public boolean createAccount(Account account, int id) {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
-			
 			ps = conn.prepareStatement(newAccount);
 			//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW HAVE TO SUPPLY IT
 			ps.setInt(1, account.getId());
@@ -24,15 +24,16 @@ public class PostgresAccountDAO implements AccountDAO {
 			ps.setString(3, account.getName());
 			ps.setInt(4, account.getBalance());
 			ps.execute();
-			//ctx.status(201);
 			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		return account;
+		return true;
 	}
-	public ArrayList<Account> getAllAccounts(int id){
+	
+	//Read
+	public ArrayList<Account> getAllAccountsForClient(int id){
 		ArrayList<Account> aList = new ArrayList<Account>();
 		try(Connection conn = ConnectionUtils.createConnection();) {
 			String selectAllAccounts = "SELECT * FROM account WHERE account_owner=?";
@@ -50,7 +51,6 @@ public class PostgresAccountDAO implements AccountDAO {
 			}
 			rs.close();ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		return aList;
@@ -72,7 +72,6 @@ public class PostgresAccountDAO implements AccountDAO {
 			rs.close();ps.close();
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return a;
@@ -101,56 +100,58 @@ public class PostgresAccountDAO implements AccountDAO {
 		}
 		return bList;
 	}
-	public void deposit(int newBalance, int id) {
-		try(Connection conn = ConnectionUtils.createConnection();) {
-			//String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
-			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
-			//ps = conn.prepareStatement(getAccountBalance);
-			//ps.setInt(1, id);
-			//rs = ps.executeQuery();
-			//int newBalance;
-			//while (rs.next()) {
-				//int currentBalance = rs.getInt("account_balance");
-				//newBalance = currentBalance + amountToDeposit.getBalance();
-				ps = conn.prepareStatement(updateAccountBalance);
-				ps.setInt(1, newBalance);
-				ps.setInt(2, id);
-				ps.execute();
-				//ctx.status(200);
-			//}
-			//rs.close();
+	
+	//Update
+	public Account updateAccount(Account account, int id) {
+		try (Connection conn = ConnectionUtils.createConnection()) {
+			String updateAccount = "UPDATE account SET account_name=? WHERE account_id=?";
+			ps = conn.prepareStatement(updateAccount);
+			ps.setString(1, account.getName());
+			ps.setInt(2, id);
+			ps.execute();
 			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return account;
+	};
+	public void deposit(int newBalance, int id) {
+		try(Connection conn = ConnectionUtils.createConnection();) {
+			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
+			ps = conn.prepareStatement(updateAccountBalance);
+			ps.setInt(1, newBalance);
+			ps.setInt(2, id);
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	public void withdraw(int newBalance, int id) {
 		try(Connection conn = ConnectionUtils.createConnection();) {
-//			String getAccountBalance = "SELECT account_balance FROM account WHERE account_id=?";
 			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
-//			Connection conn = ConnectionUtils.createConnection();
-//			ps.setInt(1, id);
-//			rs = ps.executeQuery();
-//			int newBalance;
-//			while (rs.next()) {
-//				int currentBalance = rs.getInt("account_balance");
-//				newBalance = currentBalance - amountToWithdraw.getBalance();
-//				if (newBalance < 0) {
-//					ctx.result("No... That's impossible!!");
-//				} else {
-					ps = conn.prepareStatement(updateAccountBalance);
-					ps.setInt(1, newBalance);
-					ps.setInt(2, id);
-					ps.execute();
-//					ctx.status(200);
-//				}
-//			}
-//			rs.close();
+			ps = conn.prepareStatement(updateAccountBalance);
+			ps.setInt(1, newBalance);
+			ps.setInt(2, id);
+			ps.execute();
 			ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	//Delete
+	public boolean deleteAccount(int id) {
+		try (Connection conn = ConnectionUtils.createConnection();) {
+			String deleteClient = "DELETE FROM account WHERE account_id=?";
+			ps = conn.prepareStatement(deleteClient);
+			ps.setInt(1, id);
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

@@ -24,7 +24,7 @@ public class App {
 		
 		//Prepare our Account Layers
 		AccountDAO adao = new PostgresAccountDAO();
-		AccountService aserv = new AccountServiceImplement(adao);
+		AccountService aserv = new AccountServiceImplement(adao, cdao);
 		AccountController accountController = new AccountController(aserv);
 		
 		//Set up all of our Endpoints
@@ -38,12 +38,12 @@ public class App {
 		app.post("/accounts/{id}", accountController.addAccount);
 		app.get("/accounts/{id}", accountController.getOneAccount);
 		app.get("/accounts", accountController.getAccountsWithBalance);
-		app.put("/accounts/{id}", AccountController.updateAccount);
+		app.put("/accounts/{id}", accountController.updateAccount);
 		app.patch("/accounts/{id}/deposit", accountController.deposit);
 		app.patch("/accounts/{id}/withdraw", accountController.withdraw);
-		app.delete("/accounts/{id}", AccountController.deleteAccount);
+		app.delete("/accounts/{id}", accountController.deleteAccount);
 		
 		//Starting our Application
-		app.start();
+		app.start(1337);
 	}
 }

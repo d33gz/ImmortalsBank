@@ -1,4 +1,4 @@
-package revature.d33gz.connection;
+package revature.d33gz.utilities;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

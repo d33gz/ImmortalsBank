@@ -48,5 +48,44 @@ You can:
 	      return 422 if insufficient funds
 
 
+Things to Do
 
-		
+ 	
+	*** UpdateClient gives a 404 even if it is successful.
+	*** DeleteAccount will give a 200 even if an Account doesn't exist
+	*** Can't delete a Client with Accounts and get the wrong Error too.
+	*** Deposit/Withdraw will try to Update even if no Account exists
+	
+	** Change CreateClient/Account to not use a Boolean
+	** Create a Random Id Generator so I can POST a Client without worrying about duplicate ID.
+	** Create Service Layer Tests.
+	** Sweep away out dated Code.
+	
+	* Return the newly created Client as a JSON Object.
+	* Ensure all Imports are in alphabetical order.
+
+Files I am 100% happy with
+
+	* revature.d33gz.app
+		I: App.java
+				This file includes everything needed to start the Application.
+				It contains 4 sections,
+					1) Create's a Javalin instance.
+					2) Creation of Object Layers.
+					3) All the Endpoints.
+					4) Starts the Server.
+					
+	* revature.d33gz.daoTests
+		I: ClientDAOTests.java
+				This file includes 7 Test Cases (5 Happy Paths and 2 Sad Paths).
+				All Tests are conducted on the DAO Layer corresponding to the Client Relation in the Database.
+	* 
+	
+Files I am 90% happy with
+
+	* revature.d33gz.daoTests
+		I: AccountDAOTests.java
+				This file includes 6 Test Cases (6 Happy Paths and 0 Sad Paths).
+				All Tests are conducted on the DAO Layer corresponding to the Account Relation in the Database.
+				There are no Tests for Withdraw or Deposit as their logic is handled on the Service Layer. Really they are UpdateAccount now that I think about it, and can probably be deleted.
+				There are no Sad Paths.

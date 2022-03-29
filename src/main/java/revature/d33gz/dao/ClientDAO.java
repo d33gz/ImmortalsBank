@@ -16,5 +16,5 @@ public interface ClientDAO {
 	Client updateClient(Client client, int id);
 	
 	//D
-	void deleteClient(int id);
+	boolean deleteClient(int id);
 }
