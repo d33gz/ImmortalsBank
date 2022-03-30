@@ -6,15 +6,18 @@ import revature.d33gz.dao.AccountDAO;
 import revature.d33gz.dao.ClientDAO;
 import revature.d33gz.entity.Account;
 import revature.d33gz.entity.Client;
+import revature.d33gz.utilities.RandomIdGenerator;
 
 public class AccountServiceImplement implements AccountService {
 	private AccountDAO adao;
 	private ClientDAO cdao;
+	private RandomIdGenerator gen;
 	
 	//Constructor
-	public AccountServiceImplement(AccountDAO accountDAO, ClientDAO clientDAO) {
+	public AccountServiceImplement(AccountDAO accountDAO, ClientDAO clientDAO, RandomIdGenerator gen) {
 		this.adao = accountDAO;
 		this.cdao = clientDAO;
+		this.gen = gen;
 	}
 	
 	//Create
@@ -24,6 +27,14 @@ public class AccountServiceImplement implements AccountService {
 		if (checkingClient.getId() == 0) {
 			returnAccount = false;
 		} else {
+			int randoId = gen.randomIdGenerator("Account");
+			System.out.println("The assigned ID will be " + randoId);
+			while (randoId == this.adao.getOneAccount(randoId).getId()) {
+				System.out.println("Oops! That Account ID already exists. Let's try another one.");
+				randoId = gen.randomIdGenerator("Account");
+				System.out.println("Here's the new one " + randoId);
+			}
+			account.setId(randoId);
 			returnAccount = this.adao.createAccount(account, id);
 		}
 		return returnAccount;
@@ -56,36 +67,45 @@ public class AccountServiceImplement implements AccountService {
 	}
 	
 	//Update
-	public Account updateAccount(Account account, int id) {
+	public Account updateAccountName(Account account, int id) {
 		Account returnAccount;
 		Account checkingAccount = this.adao.getOneAccount(id);
 		if (checkingAccount.getId() == 0) {
 			returnAccount = checkingAccount;
 		} else {
-			returnAccount = this.adao.updateAccount(account, id);
+			returnAccount = this.adao.updateAccountName(account, id);
 		}
 		return returnAccount;
 	}
 	public void deposit(Account incomingAccount, int id) {
 		Account currentAccount = this.adao.getOneAccount(id);
-		int currentBalance = currentAccount.getBalance();
-		System.out.println("Their current Balance is " + currentBalance);
-		int newBalance = currentBalance + incomingAccount.getBalance();
-		System.out.println("Their new Balance is " + newBalance);
-		this.adao.deposit(newBalance, id);
+		if (!(currentAccount.getId() == 0)) {
+			int currentBalance = currentAccount.getBalance();
+			System.out.println("Their current Balance is " + currentBalance);
+			int newBalance = currentBalance + incomingAccount.getBalance();
+			System.out.println("Their new Balance is " + newBalance);
+			this.adao.updateAccountBalance(newBalance, id);
+		}
 	}
 	public void withdraw(Account incomingAccount, int id) {
 		Account currentAccount = this.adao.getOneAccount(id);
-		int currentBalance = currentAccount.getBalance();
-		System.out.println("Their current Balance is " + currentBalance);
-		int newBalance = currentBalance - incomingAccount.getBalance();
-		System.out.println("Their new Balance is " + newBalance);
-		if (newBalance < 0)	System.out.println("No... That's impossible!!");
-		else this.adao.withdraw(newBalance, id);
+		if (!(currentAccount.getId() == 0)) {
+			int currentBalance = currentAccount.getBalance();
+			System.out.println("Their current Balance is " + currentBalance);
+			int newBalance = currentBalance - incomingAccount.getBalance();
+			System.out.println("Their new Balance is " + newBalance);
+			if (newBalance < 0)	
+				System.out.println("No... That's impossible!!");
+			else 
+				this.adao.updateAccountBalance(newBalance, id);
+		}
 	}
 	
 	//Delete
 	public boolean deleteAccount(int id) {
-		return this.adao.deleteAccount(id);
+		Account checkingAccount = this.adao.getOneAccount(id);
+		if (!(checkingAccount.getId() == 0))
+			return this.adao.deleteAccount(id);
+		else return false;
 	}
 }

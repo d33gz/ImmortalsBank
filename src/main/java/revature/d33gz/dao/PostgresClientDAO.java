@@ -18,7 +18,6 @@ public class PostgresClientDAO implements ClientDAO {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String newClient = "INSERT INTO client VALUES (?,?)";
 			ps = conn.prepareStatement(newClient);
-			//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW WE HAVE TO SUPPLY IT
 			ps.setInt(1, client.getId());
 			ps.setString(2, client.getName());
 			ps.execute();
@@ -82,6 +81,7 @@ public class PostgresClientDAO implements ClientDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		client.setId(id);
 		return client;
 	}
 	

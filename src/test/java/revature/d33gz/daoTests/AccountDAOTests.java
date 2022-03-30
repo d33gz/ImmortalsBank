@@ -70,14 +70,21 @@ public class AccountDAOTests {
 	
 	@Test
 	@Order(5)
-	void updateAccount() {
+	void updateAccountNameTest() {
 		Account updateAccount = new Account(702, 207, "Investment", 777);
-		adao.updateAccount(updateAccount, testAccount.getId());
+		adao.updateAccountName(updateAccount, testAccount.getId());
 		Assertions.assertEquals(updateAccount.toString(), adao.getOneAccount(testAccount.getId()).toString());
 	}
 	@Test
 	@Order(6)
-	void deleteAccount() {
+	void updateAccountBalanceTest() {
+		int updatedBalance = 707070;
+		adao.updateAccountBalance(updatedBalance, testAccount.getId());
+		Assertions.assertEquals(updatedBalance, adao.getOneAccount(testAccount.getId()).getBalance());
+	}
+	@Test
+	@Order(7)
+	void deleteAccountTest() {
 		adao.deleteAccount(testAccount.getId());
 		Account expected = adao.getOneAccount(testAccount.getId());
 		Account nullAccount = new Account(0, 0, null, 0);

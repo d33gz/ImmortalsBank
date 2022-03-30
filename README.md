@@ -51,17 +51,12 @@ You can:
 Things to Do
 
  	
-	*** UpdateClient gives a 404 even if it is successful.
-	*** DeleteAccount will give a 200 even if an Account doesn't exist
-	*** Can't delete a Client with Accounts and get the wrong Error too.
-	*** Deposit/Withdraw will try to Update even if no Account exists
+	***
 	
-	** Change CreateClient/Account to not use a Boolean
-	** Create a Random Id Generator so I can POST a Client without worrying about duplicate ID.
+	** Change CreateClient/Account to not use a Boolean (JSON instead)
 	** Create Service Layer Tests.
 	** Sweep away out dated Code.
 	
-	* Return the newly created Client as a JSON Object.
 	* Ensure all Imports are in alphabetical order.
 
 Files I am 100% happy with

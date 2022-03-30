@@ -81,12 +81,12 @@ public class AccountController {
 	};
 	
 	//Update
-	public Handler updateAccount = (ctx) -> {
+	public Handler updateAccountName = (ctx) -> {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Account ID# " + id + " is going to be updated.");
 		Account accountToUpdate = ctx.bodyAsClass(Account.class);
 		System.out.println("Takting out " + accountToUpdate);
-		Account updatedAccount = this.aserv.updateAccount(accountToUpdate, id);
+		Account updatedAccount = this.aserv.updateAccountName(accountToUpdate, id);
 		System.out.println("Putting out " + updatedAccount);
 		if (updatedAccount.getId() == 0) {
 			System.out.println("Doesn't seem to be an Account ID# " + id + " here.");

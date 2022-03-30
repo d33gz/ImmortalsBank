@@ -18,7 +18,6 @@ public class PostgresAccountDAO implements AccountDAO {
 		try (Connection conn = ConnectionUtils.createConnection();) {
 			String newAccount = "INSERT INTO account VALUES (?,?,?,?)";
 			ps = conn.prepareStatement(newAccount);
-			//WARNING ID SHOULD BE SERIALIZED BUT RIGHT NOW HAVE TO SUPPLY IT
 			ps.setInt(1, account.getId());
 			ps.setInt(2, id);
 			ps.setString(3, account.getName());
@@ -95,14 +94,13 @@ public class PostgresAccountDAO implements AccountDAO {
 			}
 			rs.close();ps.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return bList;
 	}
 	
 	//Update
-	public Account updateAccount(Account account, int id) {
+	public Account updateAccountName(Account account, int id) {
 		try (Connection conn = ConnectionUtils.createConnection()) {
 			String updateAccount = "UPDATE account SET account_name=? WHERE account_id=?";
 			ps = conn.prepareStatement(updateAccount);
@@ -114,20 +112,8 @@ public class PostgresAccountDAO implements AccountDAO {
 			e.printStackTrace();
 		}
 		return account;
-	};
-	public void deposit(int newBalance, int id) {
-		try(Connection conn = ConnectionUtils.createConnection();) {
-			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
-			ps = conn.prepareStatement(updateAccountBalance);
-			ps.setInt(1, newBalance);
-			ps.setInt(2, id);
-			ps.execute();
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
-	public void withdraw(int newBalance, int id) {
+	public void updateAccountBalance(int newBalance, int id) {
 		try(Connection conn = ConnectionUtils.createConnection();) {
 			String updateAccountBalance = "UPDATE account SET account_balance=? WHERE account_id=?";
 			ps = conn.prepareStatement(updateAccountBalance);
