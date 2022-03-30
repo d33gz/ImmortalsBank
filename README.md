@@ -1,6 +1,6 @@
 Hello and Welcome to the Bank of the Immortals!
 
-Our Clients are some of the most famous individuals from Mythology, History, and works of Fiction. They have earned a place in the Collective Culture of Humanity as True Legends. Here, at the Bank of the Immortals, we are proud to handle their Accounts, whether that be a Checking or Savings Account.
+Our Clients are some of the most famous individuals from Mythology, History, and works of Fiction. They have earned a place in the Collective Culture of Humanity as True Legends. Here, at the Bank of the Immortals, we are proud to handle their Accounts, whether that be a Checking, Savings, or Investment Account.
 
 What can you do with our Service?
 
@@ -55,32 +55,9 @@ Things to Do
 	
 	** Change CreateClient/Account to not use a Boolean (JSON instead)
 	** Create Service Layer Tests.
-	** Sweep away out dated Code.
+	** Validate Client names and Account Types
 	
+	* Sweep away out dated Code.
 	* Ensure all Imports are in alphabetical order.
 
-Files I am 100% happy with
 
-	* revature.d33gz.app
-		I: App.java
-				This file includes everything needed to start the Application.
-				It contains 4 sections,
-					1) Create's a Javalin instance.
-					2) Creation of Object Layers.
-					3) All the Endpoints.
-					4) Starts the Server.
-					
-	* revature.d33gz.daoTests
-		I: ClientDAOTests.java
-				This file includes 7 Test Cases (5 Happy Paths and 2 Sad Paths).
-				All Tests are conducted on the DAO Layer corresponding to the Client Relation in the Database.
-	* 
-	
-Files I am 90% happy with
-
-	* revature.d33gz.daoTests
-		I: AccountDAOTests.java
-				This file includes 6 Test Cases (6 Happy Paths and 0 Sad Paths).
-				All Tests are conducted on the DAO Layer corresponding to the Account Relation in the Database.
-				There are no Tests for Withdraw or Deposit as their logic is handled on the Service Layer. Really they are UpdateAccount now that I think about it, and can probably be deleted.
-				There are no Sad Paths.
