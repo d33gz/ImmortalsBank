@@ -68,14 +68,12 @@ public class AccountServiceImplement implements AccountService {
 	
 	//Update
 	public Account updateAccountName(Account account, int id) {
-		Account returnAccount;
 		Account checkingAccount = this.adao.getOneAccount(id);
-		if (checkingAccount.getId() == 0) {
-			returnAccount = checkingAccount;
-		} else {
-			returnAccount = this.adao.updateAccountName(account, id);
+		if (!(checkingAccount.getId() == 0)) {
+			this.adao.updateAccountName(account, id);
 		}
-		return returnAccount;
+		account.setId(id);
+		return account;
 	}
 	public void deposit(Account incomingAccount, int id) {
 		Account currentAccount = this.adao.getOneAccount(id);
@@ -87,18 +85,22 @@ public class AccountServiceImplement implements AccountService {
 			this.adao.updateAccountBalance(newBalance, id);
 		}
 	}
-	public void withdraw(Account incomingAccount, int id) {
+	public boolean withdraw(Account incomingAccount, int id) {
+		boolean isGood = true;
 		Account currentAccount = this.adao.getOneAccount(id);
 		if (!(currentAccount.getId() == 0)) {
 			int currentBalance = currentAccount.getBalance();
 			System.out.println("Their current Balance is " + currentBalance);
 			int newBalance = currentBalance - incomingAccount.getBalance();
 			System.out.println("Their new Balance is " + newBalance);
-			if (newBalance < 0)	
+			if (newBalance < 0)	{
 				System.out.println("No... That's impossible!!");
-			else 
+				isGood = false;
+			} else {
 				this.adao.updateAccountBalance(newBalance, id);
+			}
 		}
+		return isGood;
 	}
 	
 	//Delete

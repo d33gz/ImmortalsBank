@@ -85,9 +85,7 @@ public class AccountController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Account ID# " + id + " is going to be updated.");
 		Account accountToUpdate = ctx.bodyAsClass(Account.class);
-		System.out.println("Takting out " + accountToUpdate);
 		Account updatedAccount = this.aserv.updateAccountName(accountToUpdate, id);
-		System.out.println("Putting out " + updatedAccount);
 		if (updatedAccount.getId() == 0) {
 			System.out.println("Doesn't seem to be an Account ID# " + id + " here.");
 			ctx.result("Can't seem to find an Account with that ID.");
@@ -109,7 +107,14 @@ public class AccountController {
 		int id = Integer.parseInt(ctx.pathParam("id"));
 		System.out.println("Client ID# " + id + " is trying to make a Withdrawal.");
 		Account accountWithdrawing = ctx.bodyAsClass(Account.class);
-		this.aserv.withdraw(accountWithdrawing, id);
+		boolean isPossible = this.aserv.withdraw(accountWithdrawing, id);
+		if (isPossible) {
+			ctx.result("Here is your money.");
+			ctx.status(200);
+		} else {
+			ctx.result("That would put you at less than 0 dollars... we can't allow that.");
+			ctx.status(400);
+		}
 	};
 	
 	//Delete
